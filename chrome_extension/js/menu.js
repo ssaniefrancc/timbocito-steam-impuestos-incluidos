@@ -79,7 +79,7 @@ function createMenus(){
                     <div class="grupo-opciones">
                         <h3>Enlaces Útiles</h3>
                         <a href="https://www.set.gov.py/" target="_blank">Información sobre IVA Digital 🇵🇾</a>
-                        <a href="https://github.com/tu-usuario/tu-repo/issues" target="_blank">Reportar un bug en la versión PY 🐛</a>
+                        <a href="https://github.com/ssaniefrancc/timbocito-steam-impuestos-incluidos/issues" target="_blank">Reportar un bug en la versión PY 🐛</a>
                         <a href="https://partner.steamgames.com/pricing" target="_blank">Precios Regionales de Valve 📊</a>
                         ${getReviewLink()} 
                     </div>
