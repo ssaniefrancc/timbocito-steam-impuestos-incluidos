@@ -1,0 +1,86 @@
+
+![Steamcito](/steamcito-hero.jpg)
+
+![Chrome Web Store](https://img.shields.io/chrome-web-store/users/fcjljapncagfmfhdkccgnbkgdpbcefcj?label=Usuarios) 
+![Chrome Web Store](https://img.shields.io/chrome-web-store/rating/fcjljapncagfmfhdkccgnbkgdpbcefcj?label=Rating) 
+![GitHub Repo stars](https://img.shields.io/github/stars/emilianog94/Steamcito-Precios-Steam-Argentina-Impuestos-Incluidos?label=Stars) 
+![Chrome Web Store](https://img.shields.io/chrome-web-store/v/fcjljapncagfmfhdkccgnbkgdpbcefcj?label=Versi%C3%B3n%20Actual)
+![GitHub Release Date](https://img.shields.io/github/release-date/emilianog94/Steamcito-Precios-Steam-Argentina-Impuestos-Incluidos?label=Fecha)
+
+
+# Steamcito Paraguay - Precios en Guaraníes para Steam
+Steamcito Paraguay es un fork de la popular extensión Steamcito, adaptado específicamente para los usuarios de Paraguay. Calcula automáticamente los precios de todos los juegos de USD a Guaraníes (PYG) e incluye el IVA del 10% de servicios digitales.
+
+Ya no necesitas calculadoras externas para saber cuánto vas a pagar en tu extracto bancario.
+
+
+## Funcionalidades
+- Visualización automática de todos los precios en Guaraníes (₲).
+- Conversión basada en la cotización real del día (USD a PYG).
+- Incluye el IVA del 10% para servicios digitales en Paraguay.
+- Sincronización automática cada una hora de cotizaciones del dólar e impuestos vigentes.
+- Análisis de precios de los juegos en base a la sugerencia de precios de Valve para saber si un juego está barato, adecuado o caro en términos estrictamente relativos.
+- Botón para solicitar precio regional al publicador de un juego cuando este no cuente con precio regional.
+- Cálculo de precios inteligente basado en tu saldo Steam Wallet.
+
+***
+
+## Créditos
+Este proyecto es un fork de [Steamcito](https://github.com/emilianog94/Steamcito-Precios-Steam-Argentina-Impuestos-Incluidos) creado por Emiliano G. y adaptado para Paraguay.
+
+***
+
+## Secciones Incluidas
+Steamcito funciona en absolutamente todas las secciones donde se visualicen precios de juegos.
+- Home
+- Secciones de Eventos y Ofertas
+- Fichas de Producto 
+- Fichas de Bundles 
+- Buscador predictivo
+- Buscador general 
+- Carrito 
+- Historial 
+- Páginas de Publishers y Developers
+- Listas de Mentores
+
+***
+
+## Navegadores Compatibles
+- Google Chrome
+- Microsoft Edge
+- Opera / Opera GX
+- Cualquier otro navegador basado en Chromium (Brave, Vivaldi, etc)
+
+***
+
+## Dispositivos Compatibles
+- Compatible en Windows, Linux y Mac utilizando navegadores basados en Chromium
+- Compatible en Android utilizando el navegador Kiwi Browser
+
+***
+
+## Instrucciones de instalación y uso
+1. Instalá Steamcito [en tu navegador favorito](https://www.steamcito.com.ar)
+2. ¡Listo! Ya podés entrar a la tienda de Steam desde tu navegador y Steamcito estará funcionando.
+
+***
+
+## ¿Tenés planeado hacer algo similar para Origin, Microsoft, Epic Store, Playstation Store, etc?
+¡Ya existe una muy buena extensión para otras tiendas! <a href="https://github.com/lucasromerodb/impuestito">Te recomiendo usar Impuestito</a> que aún está en desarrollo y hace los cálculos de impuestos para la mayoría de las tiendas 😀
+
+***
+
+## Reporte de Bugs y Sugerencias
+¿Encontraste un bug o tenés un problema para usar la extensión?
+
+[Creá un issue](https://github.com/emilianog94/Steamcito-Precios-Steam-Argentina-Impuestos-Incluidos/issues)
+
+![GitHub closed issues](https://img.shields.io/github/issues-closed/emilianog94/Steamcito-Precios-Steam-Argentina-Impuestos-Incluidos?color=green&label=issues%20solucionados)
+![GitHub issues](https://img.shields.io/github/issues-raw/emilianog94/Steamcito-Precios-Steam-Argentina-Impuestos-Incluidos?color=yellow&label=issues%20actuales)
+
+***
+
+## Últimas Actualizaciones
+Conocé todos los detalles de las últimas actualizaciones de Steamcito
+
+[Ver changelog](https://steamcito.com.ar/changelog)
