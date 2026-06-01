@@ -1,19 +1,19 @@
 @charset "UTF-8";
 @font-face {
-  font-family: "steamcito-emojis-noto";
+  font-family: "timbocito-emojis-noto";
   font-style: normal;
   font-weight: 400;
   src: url(https://fonts.gstatic.com/l/font?kit=Yq6P-KqIXTD0t4D9z1ESnKM3-HpFabt0-yAtYT8dG2Qyr9iC5Ue3K5AOyg&skey=a373f7129eaba270&v=v32) format("woff2");
 }
 @font-face {
-  font-family: "steamcito-emojis";
-  src: url("chrome-extension://__MSG_@@extension_id__/emojis/steamcito-emojis.eot");
-  src: url("chrome-extension://__MSG_@@extension_id__/emojis/steamcito-emojis.eot?#iefix") format("embedded-opentype"), url("chrome-extension://__MSG_@@extension_id__/emojis/steamcito-emojis.woff") format("woff"), url("chrome-extension://__MSG_@@extension_id__/emojis/steamcito-emojis.ttf") format("truetype");
+  font-family: "timbocito-emojis";
+  src: url("chrome-extension://__MSG_@@extension_id__/emojis/timbocito-emojis.eot");
+  src: url("chrome-extension://__MSG_@@extension_id__/emojis/timbocito-emojis.eot?#iefix") format("embedded-opentype"), url("chrome-extension://__MSG_@@extension_id__/emojis/timbocito-emojis.woff") format("woff"), url("chrome-extension://__MSG_@@extension_id__/emojis/timbocito-emojis.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
 }
 .emojis {
-  font-family: "steamcito-emojis-noto", sans-serif;
+  font-family: "timbocito-emojis-noto", sans-serif;
   text-transform: uppercase;
   margin-left: 2px;
 }
@@ -29,39 +29,39 @@ body.menu-enabled .responsive_page_frame {
   transition: all 0.5s ease;
 }
 
-.steamcito_argentina_owned_games .focus {
+.timbocito_argentina_owned_games .focus {
   overflow-x: auto;
   padding-bottom: 20px;
 }
-.steamcito_argentina_owned_games .focus::-webkit-scrollbar {
+.timbocito_argentina_owned_games .focus::-webkit-scrollbar {
   height: 15px;
 }
-.steamcito_argentina_owned_games .focus::-webkit-scrollbar-thumb {
+.timbocito_argentina_owned_games .focus::-webkit-scrollbar-thumb {
   background-color: rgba(255, 255, 255, 0.75);
   cursor: pointer;
 }
-.steamcito_argentina_owned_games .focus::-webkit-scrollbar-track {
+.timbocito_argentina_owned_games .focus::-webkit-scrollbar-track {
   background: rgba(0, 0, 0, 0.5);
   border-radius: 0.5rem;
 }
-.steamcito_argentina_owned_games .top_new_releases_banner_click {
+.timbocito_argentina_owned_games .top_new_releases_banner_click {
   cursor: default;
   pointer-events: none;
 }
-.steamcito_argentina_owned_games .top_new_releases_banner_click .title_ico {
+.timbocito_argentina_owned_games .top_new_releases_banner_click .title_ico {
   max-width: 35px;
   border-radius: 0.2rem;
 }
-.steamcito_argentina_owned_games .top_new_releases_banner_ctn .dateline {
+.timbocito_argentina_owned_games .top_new_releases_banner_ctn .dateline {
   letter-spacing: 2px;
 }
-.steamcito_argentina_owned_games img {
+.timbocito_argentina_owned_games img {
   transition: all 0.5s ease;
 }
-.steamcito_argentina_owned_games img:hover {
+.timbocito_argentina_owned_games img:hover {
   transform: scale(1.1);
 }
-.steamcito_argentina_owned_games .ds_owned_flag, .steamcito_argentina_owned_games .ds_options {
+.timbocito_argentina_owned_games .ds_owned_flag, .timbocito_argentina_owned_games .ds_options {
   display: none;
 }
 
@@ -87,12 +87,12 @@ body.menu-enabled .responsive_page_frame {
   opacity: 0.75;
 }
 
-.steamcito_saving_tip_url + .game_area_purchase_game {
+.timbocito_saving_tip_url + .game_area_purchase_game {
   border-top-left-radius: 0;
   border-top-right-radius: 0;
 }
 
-.steamcito_saving_tip {
+.timbocito_saving_tip {
   position: relative;
   background-color: #415e19;
   transition: all 0.25s ease;
@@ -108,62 +108,62 @@ body.menu-enabled .responsive_page_frame {
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;
 }
-.steamcito_saving_tip:hover {
+.timbocito_saving_tip:hover {
   background-color: #4c6b22;
 }
-.steamcito_saving_tip .steamcito_saving_tip_close {
+.timbocito_saving_tip .timbocito_saving_tip_close {
   color: rgb(172, 178, 184);
   position: absolute;
   right: 0.35rem;
   top: 0.25rem;
 }
-.steamcito_saving_tip .steamcito_saving_tip_close:hover {
+.timbocito_saving_tip .timbocito_saving_tip_close:hover {
   color: #fff;
 }
-.steamcito_saving_tip .steamcito_saving_tip_icon {
+.timbocito_saving_tip .timbocito_saving_tip_icon {
   font-size: 1.75rem;
   transition: all 0.25s ease;
 }
-.steamcito_saving_tip .steamcito_saving_tip_text_main {
+.timbocito_saving_tip .timbocito_saving_tip_text_main {
   color: #BEEE11;
 }
 
-.steamcito_saving_tip_left_emoji {
+.timbocito_saving_tip_left_emoji {
   font-size: 1.5rem;
 }
 
-.steamcito_saving_tip_image {
+.timbocito_saving_tip_image {
   margin-left: auto;
 }
-.steamcito_saving_tip_image img {
+.timbocito_saving_tip_image img {
   width: 65px;
   margin-right: 10px;
   opacity: 0.85;
 }
 
-.steamcito_saving_tip_amount {
+.timbocito_saving_tip_amount {
   color: #BEEE11;
   font-size: 0.75rem;
   opacity: 0.85;
 }
 
-.steamcito_saving_tip_white {
+.timbocito_saving_tip_white {
   color: #fff;
 }
 
-.steamcito_saving_tip_url {
+.timbocito_saving_tip_url {
   color: #acb2b8;
   transition: all 0.25s ease;
 }
-.steamcito_saving_tip_url:hover .steamcito_crypto_cta {
+.timbocito_saving_tip_url:hover .timbocito_crypto_cta {
   text-decoration: underline;
   opacity: 0.75;
 }
-.steamcito_saving_tip_url:hover .steamcito_saving_tip_icon {
+.timbocito_saving_tip_url:hover .timbocito_saving_tip_icon {
   transform: scale(1.1) rotate(20deg);
 }
 
-.steamcito_crypto_exchangerate {
+.timbocito_crypto_exchangerate {
   font-size: 0.7rem;
   color: rgb(255, 255, 255);
   opacity: 0.75;
@@ -171,13 +171,13 @@ body.menu-enabled .responsive_page_frame {
   margin-right: 0.5rem;
 }
 
-.steamcito_crypto_cta {
+.timbocito_crypto_cta {
   font-size: 0.75rem;
   color: rgb(255, 255, 255);
   transition: all 0.25s ease;
 }
 
-.steamcito_saving_tip_green {
+.timbocito_saving_tip_green {
   color: #BEEE11;
   font-weight: 700;
 }
@@ -188,65 +188,65 @@ body.menu-enabled .responsive_page_frame {
   overflow: hidden;
 }
 
-.steamcito_cart_exchangerate {
+.timbocito_cart_exchangerate {
   max-width: 100%;
   background-color: rgba(0, 0, 0, 0.25);
   margin-bottom: 1rem;
   padding: 15px;
   color: #ccd5e0;
 }
-.steamcito_cart_exchangerate p {
+.timbocito_cart_exchangerate p {
   color: white;
 }
-.steamcito_cart_exchangerate span.exchangerate_value {
+.timbocito_cart_exchangerate span.exchangerate_value {
   font-weight: 700;
   color: #fff;
   font-size: 15px;
 }
 
-.steamcito_crypto_savings {
+.timbocito_crypto_savings {
   max-width: fit-content;
   margin-bottom: 1rem;
   padding: 15px;
   background-color: #4c6b22;
   color: #fff;
 }
-.steamcito_crypto_savings:hover {
+.timbocito_crypto_savings:hover {
   color: #fff;
 }
 
-.steamcito_payment_alert {
+.timbocito_payment_alert {
   max-width: 280px;
   margin-bottom: 1rem;
   padding: 15px;
   background: linear-gradient(90deg, #cc8b0c 5.43%, #7e4400 100%);
   color: #fff;
 }
-.steamcito_payment_alert:hover {
+.timbocito_payment_alert:hover {
   color: #fff;
 }
 
-.steamcito_cart {
+.timbocito_cart {
   max-width: 100%;
   background-color: rgba(0, 0, 0, 0.25);
   margin-bottom: 1rem;
   padding: 15px;
 }
-.steamcito_cart div {
+.timbocito_cart div {
   margin-bottom: 1rem;
 }
-.steamcito_cart div p {
+.timbocito_cart div p {
   color: white;
 }
-.steamcito_cart div span {
+.timbocito_cart div span {
   font-weight: 700;
   color: #fff;
   font-size: 15px;
 }
-.steamcito_cart div:last-child {
+.timbocito_cart div:last-child {
   margin-bottom: 0;
 }
-.steamcito_cart .hide {
+.timbocito_cart .hide {
   display: none;
 }
 
@@ -527,7 +527,7 @@ body.menu-enabled .responsive_page_frame {
   transition: all 0.25s ease;
 }
 
-.actualizacion-steamcito {
+.actualizacion-timbocito {
   color: #fff;
   font-family: "Motiva Sans", sans-serif;
   padding: 10px 0;
@@ -535,7 +535,7 @@ body.menu-enabled .responsive_page_frame {
   background: #4c6b22;
   margin-bottom: 0;
 }
-.actualizacion-steamcito a {
+.actualizacion-timbocito a {
   font-weight: 700;
   text-decoration: underline;
   margin-right: 0.5em;
@@ -560,15 +560,15 @@ body.menu-enabled .responsive_page_frame {
 #global_actions {
   display: flex;
 }
-#global_actions .ico-steamcito {
-  font-family: "steamcito-emojis-noto", sans-serif;
+#global_actions .ico-timbocito {
+  font-family: "timbocito-emojis-noto", sans-serif;
   font-size: 1.1rem;
   cursor: pointer;
   margin-top: 7px;
   margin-right: 7px;
   transition: all 0.25s ease;
 }
-#global_actions .ico-steamcito:hover {
+#global_actions .ico-timbocito:hover {
   transform: rotate(20deg);
 }
 
@@ -576,16 +576,16 @@ body.menu-enabled .responsive_page_frame {
   display: flex;
   align-items: center;
 }
-#checkout_steam_logo .ico-steamcito img {
+#checkout_steam_logo .ico-timbocito img {
   width: 20px;
   cursor: pointer;
   transition: all 0.25s ease;
 }
-#checkout_steam_logo .ico-steamcito img:hover {
+#checkout_steam_logo .ico-timbocito img:hover {
   transform: rotate(20deg);
 }
 
-.menu-steamcito-background-enabled {
+.menu-timbocito-background-enabled {
   position: fixed;
   top: 0;
   left: 0;
@@ -594,7 +594,7 @@ body.menu-enabled .responsive_page_frame {
   z-index: 99999;
 }
 
-.menu-steamcito {
+.menu-timbocito {
   position: fixed;
   right: -30%;
   top: 0;
@@ -609,110 +609,110 @@ body.menu-enabled .responsive_page_frame {
   padding: 15px 0;
 }
 @media (min-width: 1440px) {
-  .menu-steamcito {
+  .menu-timbocito {
     width: 20%;
   }
 }
-.menu-steamcito a {
+.menu-timbocito a {
   display: block;
   margin: 1em 0;
   cursor: pointer;
   transition: all 0.25s ease;
 }
-.menu-steamcito a.refresher {
+.menu-timbocito a.refresher {
   font-size: 1rem;
   padding: 0.5rem;
   text-decoration: none;
   text-align: center;
 }
-.menu-steamcito a.refresher:hover {
+.menu-timbocito a.refresher:hover {
   background-color: rgba(62, 126, 167, 0.5);
   color: #fff;
 }
-.menu-steamcito .internal-menu {
+.menu-timbocito .internal-menu {
   padding: 0 15px 15px 15px;
   display: flex;
   flex-direction: column;
   height: 100%;
   overflow: auto;
 }
-.menu-steamcito .internal-menu::-webkit-scrollbar {
+.menu-timbocito .internal-menu::-webkit-scrollbar {
   width: 5px;
 }
-.menu-steamcito .internal-menu::-webkit-scrollbar-track {
+.menu-timbocito .internal-menu::-webkit-scrollbar-track {
   background: #f1f1f1;
 }
-.menu-steamcito .internal-menu::-webkit-scrollbar-thumb {
+.menu-timbocito .internal-menu::-webkit-scrollbar-thumb {
   background: #888;
 }
-.menu-steamcito .internal-menu::-webkit-scrollbar-thumb:hover {
+.menu-timbocito .internal-menu::-webkit-scrollbar-thumb:hover {
   background: #555;
 }
-.menu-steamcito .internal-menu .titulo {
+.menu-timbocito .internal-menu .titulo {
   font-weight: 700;
   font-size: 1.2em;
   color: rgb(102, 192, 244);
   margin-bottom: 1.5em;
 }
-.menu-steamcito .internal-menu .titulo .titulo__version {
+.menu-timbocito .internal-menu .titulo .titulo__version {
   font-size: 0.85em;
   font-weight: 400;
   opacity: 0.75;
 }
-.menu-steamcito .internal-menu .opciones-avanzadas-steamcito .grupo-opciones,
-.menu-steamcito .internal-menu .ayuda-steamcito .grupo-opciones {
+.menu-timbocito .internal-menu .opciones-avanzadas-timbocito .grupo-opciones,
+.menu-timbocito .internal-menu .ayuda-timbocito .grupo-opciones {
   margin: 2em 0;
   border-bottom: 1px solid rgba(0, 0, 0, 0);
 }
-.menu-steamcito .internal-menu .opciones-avanzadas-steamcito .grupo-opciones:first-child,
-.menu-steamcito .internal-menu .ayuda-steamcito .grupo-opciones:first-child {
+.menu-timbocito .internal-menu .opciones-avanzadas-timbocito .grupo-opciones:first-child,
+.menu-timbocito .internal-menu .ayuda-timbocito .grupo-opciones:first-child {
   margin-top: 0 !important;
 }
-.menu-steamcito .internal-menu .opciones-avanzadas-steamcito .grupo-opciones:last-child,
-.menu-steamcito .internal-menu .ayuda-steamcito .grupo-opciones:last-child {
+.menu-timbocito .internal-menu .opciones-avanzadas-timbocito .grupo-opciones:last-child,
+.menu-timbocito .internal-menu .ayuda-timbocito .grupo-opciones:last-child {
   border-bottom: 0;
 }
-.menu-steamcito .internal-menu .opciones-avanzadas-steamcito .grupo-opciones h3,
-.menu-steamcito .internal-menu .ayuda-steamcito .grupo-opciones h3 {
+.menu-timbocito .internal-menu .opciones-avanzadas-timbocito .grupo-opciones h3,
+.menu-timbocito .internal-menu .ayuda-timbocito .grupo-opciones h3 {
   margin-bottom: 1em;
   color: rgb(102, 192, 244);
   font-size: 1.3em;
   text-transform: uppercase;
 }
-.menu-steamcito .internal-menu .opciones-avanzadas-steamcito .grupo-opciones .opcion,
-.menu-steamcito .internal-menu .ayuda-steamcito .grupo-opciones .opcion {
+.menu-timbocito .internal-menu .opciones-avanzadas-timbocito .grupo-opciones .opcion,
+.menu-timbocito .internal-menu .ayuda-timbocito .grupo-opciones .opcion {
   margin-bottom: 2em;
 }
-.menu-steamcito .internal-menu .opciones-avanzadas-steamcito .grupo-opciones .opcion.opcion-highlighted,
-.menu-steamcito .internal-menu .ayuda-steamcito .grupo-opciones .opcion.opcion-highlighted {
+.menu-timbocito .internal-menu .opciones-avanzadas-timbocito .grupo-opciones .opcion.opcion-highlighted,
+.menu-timbocito .internal-menu .ayuda-timbocito .grupo-opciones .opcion.opcion-highlighted {
   background: linear-gradient(90deg, #cc8b0c 5.43%, #7e4400 100%);
   padding: 0.5rem;
   border-radius: 0.1rem;
   color: #fff;
 }
-.menu-steamcito .internal-menu .opciones-avanzadas-steamcito .grupo-opciones .opcion.opcion-highlighted label,
-.menu-steamcito .internal-menu .ayuda-steamcito .grupo-opciones .opcion.opcion-highlighted label {
+.menu-timbocito .internal-menu .opciones-avanzadas-timbocito .grupo-opciones .opcion.opcion-highlighted label,
+.menu-timbocito .internal-menu .ayuda-timbocito .grupo-opciones .opcion.opcion-highlighted label {
   color: #fff;
 }
-.menu-steamcito .internal-menu .opciones-avanzadas-steamcito .grupo-opciones .opcion.opcion-highlighted small,
-.menu-steamcito .internal-menu .ayuda-steamcito .grupo-opciones .opcion.opcion-highlighted small {
+.menu-timbocito .internal-menu .opciones-avanzadas-timbocito .grupo-opciones .opcion.opcion-highlighted small,
+.menu-timbocito .internal-menu .ayuda-timbocito .grupo-opciones .opcion.opcion-highlighted small {
   opacity: 1;
 }
-.menu-steamcito .internal-menu .opciones-avanzadas-steamcito .grupo-opciones .opcion small,
-.menu-steamcito .internal-menu .ayuda-steamcito .grupo-opciones .opcion small {
+.menu-timbocito .internal-menu .opciones-avanzadas-timbocito .grupo-opciones .opcion small,
+.menu-timbocito .internal-menu .ayuda-timbocito .grupo-opciones .opcion small {
   margin-top: 0.5em;
   display: block;
   font-size: 1em;
   opacity: 0.5;
 }
-.menu-steamcito .internal-menu .opciones-avanzadas-steamcito .grupo-opciones .opcion > div,
-.menu-steamcito .internal-menu .ayuda-steamcito .grupo-opciones .opcion > div {
+.menu-timbocito .internal-menu .opciones-avanzadas-timbocito .grupo-opciones .opcion > div,
+.menu-timbocito .internal-menu .ayuda-timbocito .grupo-opciones .opcion > div {
   display: block label;
   display-color: #c6d4df;
   display-min-width: 125px;
 }
-.menu-steamcito .internal-menu .opciones-avanzadas-steamcito .grupo-opciones .opcion > div .input-container,
-.menu-steamcito .internal-menu .ayuda-steamcito .grupo-opciones .opcion > div .input-container {
+.menu-timbocito .internal-menu .opciones-avanzadas-timbocito .grupo-opciones .opcion > div .input-container,
+.menu-timbocito .internal-menu .ayuda-timbocito .grupo-opciones .opcion > div .input-container {
   display: flex;
   color: #fff;
   border: 1px solid #000;
@@ -726,8 +726,8 @@ body.menu-enabled .responsive_page_frame {
   font-size: 0.9rem;
   width: 50px;
 }
-.menu-steamcito .internal-menu .opciones-avanzadas-steamcito .grupo-opciones .opcion > div .input-container input,
-.menu-steamcito .internal-menu .ayuda-steamcito .grupo-opciones .opcion > div .input-container input {
+.menu-timbocito .internal-menu .opciones-avanzadas-timbocito .grupo-opciones .opcion > div .input-container input,
+.menu-timbocito .internal-menu .ayuda-timbocito .grupo-opciones .opcion > div .input-container input {
   color: #fff;
   border-radius: 3px;
   margin-left: 0;
@@ -737,12 +737,12 @@ body.menu-enabled .responsive_page_frame {
   border: none;
   width: 100%;
 }
-.menu-steamcito .internal-menu .opciones-avanzadas-steamcito .grupo-opciones .opcion > div .input-container span,
-.menu-steamcito .internal-menu .ayuda-steamcito .grupo-opciones .opcion > div .input-container span {
+.menu-timbocito .internal-menu .opciones-avanzadas-timbocito .grupo-opciones .opcion > div .input-container span,
+.menu-timbocito .internal-menu .ayuda-timbocito .grupo-opciones .opcion > div .input-container span {
   color: #aaa;
 }
-.menu-steamcito .internal-menu .opciones-avanzadas-steamcito .grupo-opciones .opcion > div select,
-.menu-steamcito .internal-menu .ayuda-steamcito .grupo-opciones .opcion > div select {
+.menu-timbocito .internal-menu .opciones-avanzadas-timbocito .grupo-opciones .opcion > div select,
+.menu-timbocito .internal-menu .ayuda-timbocito .grupo-opciones .opcion > div select {
   background-color: rgba(0, 0, 0, 0.4);
   color: #fff;
   border: 1px solid #000;
@@ -757,11 +757,11 @@ body.menu-enabled .responsive_page_frame {
   width: 100%;
   font-size: 0.9rem;
 }
-.menu-steamcito .internal-menu .ayuda-steamcito {
+.menu-timbocito .internal-menu .ayuda-timbocito {
   margin-top: auto;
   margin-bottom: 30px;
 }
-.menu-steamcito.enabled {
+.menu-timbocito.enabled {
   right: 0;
 }
 
@@ -944,11 +944,11 @@ body.menu-enabled .responsive_page_frame {
 .notify-publisher-popup .email-template-container-subheader button {
   margin-left: 1rem;
 }
-.notify-publisher-popup .green-steamcito-button {
+.notify-publisher-popup .green-timbocito-button {
   margin-top: 0;
 }
 
-.green-steamcito-button {
+.green-timbocito-button {
   border-radius: 2px;
   display: block;
   background: linear-gradient(to right, #75b022 5%, #588a1b 95%);
@@ -962,14 +962,14 @@ body.menu-enabled .responsive_page_frame {
   outline: none;
   border: none;
 }
-.green-steamcito-button:hover {
+.green-timbocito-button:hover {
   color: #fff !important;
 }
 
-.regional-meter-wrapper.barra-minificada.content_steamcito_3 {
+.regional-meter-wrapper.barra-minificada.content_timbocito_3 {
   max-height: 40px;
 }
-.regional-meter-wrapper.barra-minificada.cotizacion-wrapper .reason:before, .regional-meter-wrapper.barra-minificada.content_steamcito_2 .reason:before {
+.regional-meter-wrapper.barra-minificada.cotizacion-wrapper .reason:before, .regional-meter-wrapper.barra-minificada.content_timbocito_2 .reason:before {
   opacity: 1;
 }
 .regional-meter-wrapper.barra-minificada {
@@ -999,16 +999,16 @@ body.menu-enabled .responsive_page_frame {
 .regional-meter-wrapper .reason.info span {
   color: #fff;
 }
-.regional-meter-wrapper .reason.against span.steamcito-strikethrough-price,
-.regional-meter-wrapper .reason.for span.steamcito-strikethrough-price,
-.regional-meter-wrapper .reason.info span.steamcito-strikethrough-price {
+.regional-meter-wrapper .reason.against span.timbocito-strikethrough-price,
+.regional-meter-wrapper .reason.for span.timbocito-strikethrough-price,
+.regional-meter-wrapper .reason.info span.timbocito-strikethrough-price {
   position: relative;
   color: #738895 !important;
   font-size: 0.75rem;
 }
-.regional-meter-wrapper .reason.against span.steamcito-strikethrough-price::before,
-.regional-meter-wrapper .reason.for span.steamcito-strikethrough-price::before,
-.regional-meter-wrapper .reason.info span.steamcito-strikethrough-price::before {
+.regional-meter-wrapper .reason.against span.timbocito-strikethrough-price::before,
+.regional-meter-wrapper .reason.for span.timbocito-strikethrough-price::before,
+.regional-meter-wrapper .reason.info span.timbocito-strikethrough-price::before {
   content: "";
   left: 0px;
   right: 0px;
@@ -1105,52 +1105,52 @@ body.menu-enabled .responsive_page_frame {
   display: flex;
   flex-direction: column;
 }
-.rightcol.game_meta_data .heading_steamcito_1 {
+.rightcol.game_meta_data .heading_timbocito_1 {
   order: -6;
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
-.rightcol.game_meta_data .heading_steamcito_1 span {
+.rightcol.game_meta_data .heading_timbocito_1 span {
   opacity: 0.5;
   font-family: "Motiva Sans", Sans-serif;
   font-weight: 300;
   font-size: 10px;
 }
-.rightcol.game_meta_data .content_steamcito_1 {
+.rightcol.game_meta_data .content_timbocito_1 {
   order: -5;
 }
-.rightcol.game_meta_data .heading_steamcito_2 {
+.rightcol.game_meta_data .heading_timbocito_2 {
   order: -4;
 }
-.rightcol.game_meta_data .content_steamcito_2 {
+.rightcol.game_meta_data .content_timbocito_2 {
   order: -3;
 }
-.rightcol.game_meta_data .heading_steamcito_3 {
+.rightcol.game_meta_data .heading_timbocito_3 {
   order: -2;
 }
-.rightcol.game_meta_data .content_steamcito_3 {
+.rightcol.game_meta_data .content_timbocito_3 {
   order: -1;
 }
-.rightcol.game_meta_data .content_steamcito_3 .reason .name-span:hover {
+.rightcol.game_meta_data .content_timbocito_3 .reason .name-span:hover {
   color: #66c0f4;
 }
-.rightcol.game_meta_data .content_steamcito_3 .for {
+.rightcol.game_meta_data .content_timbocito_3 .for {
   cursor: pointer;
 }
-.rightcol.game_meta_data .content_steamcito_3 .for:before {
+.rightcol.game_meta_data .content_timbocito_3 .for:before {
   background-image: none;
 }
-.rightcol.game_meta_data .content_steamcito_3 .for.dolar_tarjeta:before {
-  font-family: "steamcito-emojis-noto", sans-serif;
+.rightcol.game_meta_data .content_timbocito_3 .for.dolar_tarjeta:before {
+  font-family: "timbocito-emojis-noto", sans-serif;
   content: "🧉";
 }
-.rightcol.game_meta_data .content_steamcito_3 .for.dolar_crypto:before {
-  font-family: "steamcito-emojis-noto", sans-serif;
+.rightcol.game_meta_data .content_timbocito_3 .for.dolar_crypto:before {
+  font-family: "timbocito-emojis-noto", sans-serif;
   content: "🚀";
 }
-.rightcol.game_meta_data .content_steamcito_3 .for.dolar_mep:before {
-  font-family: "steamcito-emojis-noto", sans-serif;
+.rightcol.game_meta_data .content_timbocito_3 .for.dolar_mep:before {
+  font-family: "timbocito-emojis-noto", sans-serif;
   content: "💸";
 }
 
@@ -1242,4 +1242,6 @@ body.menu-enabled .responsive_page_frame {
 }
 .regional-meter-container > :not(.regional-meter-bar--selected) {
   opacity: 0.25;
-}/*# sourceMappingURL=styles.css.map */
+}
+
+/*# sourceMappingURL=styles.css.map */

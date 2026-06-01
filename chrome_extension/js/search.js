@@ -2,14 +2,16 @@ function changeRangeValue() {
     let currentNumber = document.querySelector('input#maxprice_input');
 
     if (!isNaN(currentNumber.value) && currentNumber.value) {
-        let exchangeRate = JSON.parse(localStorage.getItem('steamcito-cotizacion-tarjeta'))?.rate || 6100;
-        rangeDisplayTextSteamcito.innerText = `Menos de ₲ ${Math.round(currentNumber.value * exchangeRate * totalTaxes)} 🧉`;
+        let exchangeRate = JSON.parse(localStorage.getItem('timbocito-cotizacion-tarjeta'))?.rate || 6100;
+        rangeDisplayTextTimbocito.innerText = `Menos de ₲ ${Math.round(currentNumber.value * exchangeRate * totalTaxes)} 🧉`;
     } else {
-        rangeDisplayTextSteamcito.innerText = "";
+        rangeDisplayTextTimbocito.innerText = "";
     }
 }
 
 let rangeInput = document.querySelector('input#price_range');
 let rangeDisplayText = document.querySelector('#price_range_display');
-rangeDisplayText.insertAdjacentHTML('afterend', `<p class="range_display range_display_steamcito"></p>`)
-let rangeDisplayTextSteamcito = document.querySelector('.range_display_steamcito');
+rangeDisplayText.insertAdjacentHTML('afterend', `<p class="range_display range_display_timbocito"></p>`)
+let rangeDisplayTextTimbocito = document.querySelector('.range_display_timbocito');
+
+rangeInput && rangeInput.addEventListener('input', changeRangeValue);

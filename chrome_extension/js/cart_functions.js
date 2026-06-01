@@ -53,7 +53,7 @@
     
     function showTaxes() {
 
-        let cotizacionRaw = JSON.parse(localStorage.getItem('steamcito-cotizacion-tarjeta'));
+        let cotizacionRaw = JSON.parse(localStorage.getItem('timbocito-cotizacion-tarjeta'));
         let staticExchangeRate = cotizacionRaw?.rate || 7500;
         let newExchangeRate = staticExchangeRate;
 
@@ -126,7 +126,7 @@
     let taxChangeShortcut = document.querySelector("#tax-change");
     taxChangeShortcut.addEventListener('click', function () {
         setTimeout(function () {
-            steamcitoIcon.click();
+            timbocitoIcon.click();
         }, 1);
     });
 

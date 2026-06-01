@@ -1,4 +1,4 @@
-const url = window.location.pathname;
+const regionalUrl = window.location.pathname;
 let indicatorStyle = localStorage.getItem('estilo-barra');
 
 const getAppData = (url) => {
@@ -62,103 +62,134 @@ const getExchangeRate = async () => {
 }
 
 const getAppPricing = async (appInitialData) => {
+    console.log("timbocito debug: Iniciando getAppPricing con datos:", appInitialData);
     await getUsdExchangeRate();
     const { type, id } = appInitialData;
     let appEndpoint = `/api/appdetails?appids=${id}`;
     let subEndpoint = `/api/packagedetails?packageids=${id}`
 
-    const appIdFetch = await fetch(`${type == "app" ? `${appEndpoint}&cc=us` : `${subEndpoint}&cc=us`}`, { credentials: 'omit' })
+    // Si no estamos en una página de producto válida, abortamos
+    if(!id) {
+        console.log("timbocito debug: No hay appid/subid válido, saliendo.");
+        return;
+    }
 
-    const appIdFetchArg = await fetch(`${type == "app" ? `${appEndpoint}&cc=ar` : `${subEndpoint}&cc=ar`}`, { credentials: 'omit' })
+    let sidebar = document.querySelector('.rightcol.game_meta_data');
+    console.log("timbocito debug: Sidebar encontrada?", sidebar !== null);
 
-    let exchangeRate = JSON.parse(localStorage.getItem('timbocito-cotizacion-tarjeta'))?.rate;
+    try {
+        console.log(`timbocito debug: Realizando fetch para EE.UU. y Paraguay para ID: ${id}`);
+        const appIdFetch = await fetch(`${type == "app" ? `${appEndpoint}&cc=us` : `${subEndpoint}&cc=us`}`, { credentials: 'omit' })
 
+        // Usamos cc=py para traer precios de Paraguay
+        const appIdFetchArg = await fetch(`${type == "app" ? `${appEndpoint}&cc=py` : `${subEndpoint}&cc=py`}`, { credentials: 'omit' })
 
-    let appIdResponse = await appIdFetch.json();
-    let appIdArgResponse = await appIdFetchArg.json();
+        let exchangeRate = JSON.parse(localStorage.getItem('timbocito-cotizacion-tarjeta'))?.rate;
+        console.log("timbocito debug: Cotización leída:", exchangeRate);
 
-    if (appIdResponse[id].success && appIdArgResponse[id].success) {
-        if (appIdResponse[id].data.is_free || !appIdResponse[id].data[type == "sub" ? "price" : "price_overview"]) {
-            return;
-        }
-        appIdResponse = appIdResponse[id].data;
-        appIdArgResponse = appIdArgResponse[id].data;
+        let appIdResponse = await appIdFetch.json();
+        let appIdArgResponse = await appIdFetchArg.json();
+        
+        console.log("timbocito debug: Respuesta EE.UU.:", appIdResponse);
+        console.log("timbocito debug: Respuesta Paraguay:", appIdArgResponse);
 
-        const appData = {
-            name: appIdResponse.name,
-            discount: (appIdResponse[type == "sub" ? "price" : "price_overview"].discount_percent),
-            publisher: appIdResponse.publishers?.[0] || "El publisher",
-            releaseDate: appIdResponse.release_date?.date || "Sin fecha de lanzamiento",
-            baseUsdPrice: (appIdResponse[type == "sub" ? "price" : "price_overview"].initial) / 100,
-            baseArsPrice: (appIdArgResponse[type == "sub" ? "price" : "price_overview"].initial) / 100,
-            usdPrice: (appIdResponse[type == "sub" ? "price" : "price_overview"].final) / 100,
-            arsPrice: (appIdArgResponse[type == "sub" ? "price" : "price_overview"].final) / 100,
-            support_url: appIdResponse?.support_info?.url,
-            support_email: appIdResponse?.support_info?.email,
-            baseRecommendedArsPrice: undefined,
-            recommendedArsPrice: undefined,
-            recommendedLatamPrice: undefined,
-            regionalStatus: undefined
-        }
+        if (appIdResponse[id] && appIdArgResponse[id]) {
+            console.log(`timbocito debug: success EE.UU: ${appIdResponse[id].success}, success Paraguay: ${appIdArgResponse[id].success}`);
+            if (appIdResponse[id].success && appIdArgResponse[id].success) {
+                if (appIdResponse[id].data.is_free || !appIdResponse[id].data[type == "sub" ? "price" : "price_overview"]) {
+                    console.log("timbocito debug: El juego es gratis o no tiene precio, saliendo.");
+                    return;
+                }
+                appIdResponse = appIdResponse[id].data;
+                appIdArgResponse = appIdArgResponse[id].data;
 
-        if(appData.publisher != "El publisher" && !appData.support_email.includes('@')){
-            // Si el mail no incluye una @, es porque lo cargó mal
-            !appData.support_url ? appData.support_url = appData.support_email : ""
-            appData.support_email = "";
+                const appData = {
+                    name: appIdResponse.name,
+                    discount: (appIdResponse[type == "sub" ? "price" : "price_overview"].discount_percent),
+                    publisher: appIdResponse.publishers?.[0] || "El publisher",
+                    releaseDate: appIdResponse.release_date?.date || "Sin fecha de lanzamiento",
+                    baseUsdPrice: (appIdResponse[type == "sub" ? "price" : "price_overview"].initial) / 100,
+                    baseArsPrice: (appIdArgResponse[type == "sub" ? "price" : "price_overview"].initial) / 100,
+                    usdPrice: (appIdResponse[type == "sub" ? "price" : "price_overview"].final) / 100,
+                    arsPrice: (appIdArgResponse[type == "sub" ? "price" : "price_overview"].final) / 100,
+                    support_url: appIdResponse?.support_info?.url,
+                    support_email: appIdResponse?.support_info?.email,
+                    baseRecommendedArsPrice: undefined,
+                    recommendedArsPrice: undefined,
+                    recommendedLatamPrice: undefined,
+                    regionalStatus: undefined
+                }
+                console.log("timbocito debug: Datos procesados de la app:", appData);
 
-        }
+                if(appData.publisher != "El publisher" && appData.support_email && !appData.support_email.includes('@')){
+                    !appData.support_url ? appData.support_url = appData.support_email : ""
+                    appData.support_email = "";
+                }
 
-        const nearestOption = regionalPricingOptionsLatam.reduce((prev, curr) => Math.abs(curr - appData.baseUsdPrice) < Math.abs(prev - appData.baseUsdPrice) ? curr : prev);
+                const nearestOption = regionalPricingOptionsLatam.reduce((prev, curr) => Math.abs(curr - appData.baseUsdPrice) < Math.abs(prev - appData.baseUsdPrice) ? curr : prev);
+                console.log("timbocito debug: Opción de precio más cercana:", nearestOption);
 
-        const baseRecommendedArsPrice = regionalPricingChartLatam
-            .filter(item => item.usdPrice == nearestOption)
-            .map(item => item.argPrice)[0];
+                const baseRecommendedArsPrice = regionalPricingChartLatam
+                    .filter(item => item.usdPrice == nearestOption)
+                    .map(item => item.argPrice)[0];
 
-        const recommendedArsPrice = regionalPricingChartLatam
-            .filter(item => item.usdPrice == nearestOption)
-            .map(item => item.argPrice)[0] * (100 - appData.discount) / 100;
-            
+                const recommendedArsPrice = regionalPricingChartLatam
+                    .filter(item => item.usdPrice == nearestOption)
+                    .map(item => item.argPrice)[0] * (100 - appData.discount) / 100;
+                    
 
-        appData.recommendedArsPrice = recommendedArsPrice;
-        appData.baseRecommendedArsPrice = baseRecommendedArsPrice;
+                appData.recommendedArsPrice = recommendedArsPrice;
+                appData.baseRecommendedArsPrice = baseRecommendedArsPrice;
 
-        const pppPrice = regionalPricingChartLatamPPP
-            .filter(item => item.usdPrice == nearestOption)
-            .map(item => item.argPrice)[0] * (100 - appData.discount) / 100;
-        appData.pppPrice = pppPrice;
+                const pppPrice = regionalPricingChartLatamPPP
+                    .filter(item => item.usdPrice == nearestOption)
+                    .map(item => item.argPrice)[0] * (100 - appData.discount) / 100;
+                appData.pppPrice = pppPrice;
 
-        // Tiene el mismo precio que en Estados Unidos
-        if (appData.arsPrice == appData.usdPrice) {
-            appData.regionalDifference = 0;
-            appData.regionalStatus = "expensive"
-        }
+                // Tiene el mismo precio que en Estados Unidos
+                if (appData.arsPrice == appData.usdPrice) {
+                    appData.regionalDifference = 0;
+                    appData.regionalStatus = "expensive"
+                }
 
-        // Está más caro que lo esperado
-        if (appData.arsPrice > appData.recommendedArsPrice && appData.arsPrice != appData.usdPrice ) {
-            appData.regionalDifference = Math.round((parseFloat((appData.arsPrice - appData.recommendedArsPrice)) / appData.recommendedArsPrice) * 100);
-            appData.regionalDifference <= 25 ? appData.regionalStatus = "fair" : appData.regionalStatus = "semifair";
-        }
-        else if (appData.arsPrice < appData.recommendedArsPrice) {
-            appData.regionalDifference = Math.round((parseFloat((appData.recommendedArsPrice - appData.arsPrice)) / appData.recommendedArsPrice) * 100);
-            appData.regionalDifference <= 25 ? appData.regionalStatus = "fair" : appData.regionalStatus = "cheap";
-        }
-        else if (appData.arsPrice == appData.recommendedArsPrice) {
-            appData.regionalStatus = "fair";
-            appData.regionalDifference = 0;
-        }
+                // Está más caro que lo esperado
+                if (appData.arsPrice > appData.recommendedArsPrice && appData.arsPrice != appData.usdPrice ) {
+                    appData.regionalDifference = Math.round((parseFloat((appData.arsPrice - appData.recommendedArsPrice)) / appData.recommendedArsPrice) * 100);
+                    appData.regionalDifference <= 25 ? appData.regionalStatus = "fair" : appData.regionalStatus = "semifair";
+                }
+                else if (appData.arsPrice < appData.recommendedArsPrice) {
+                    appData.regionalDifference = Math.round((parseFloat((appData.recommendedArsPrice - appData.arsPrice)) / appData.recommendedArsPrice) * 100);
+                    appData.regionalDifference <= 25 ? appData.regionalStatus = "fair" : appData.regionalStatus = "cheap";
+                }
+                else if (appData.arsPrice == appData.recommendedArsPrice) {
+                    appData.regionalStatus = "fair";
+                    appData.regionalDifference = 0;
+                }
 
-        // Excellent: precio dentro del 20% del PPP
-        if (appData.pppPrice && appData.regionalStatus !== "expensive") {
-            const pppDifference = Math.abs(appData.arsPrice - appData.pppPrice) / appData.pppPrice;
-            if (pppDifference <= 0.20) {
-                appData.regionalStatus = "excellent";
-                appData.pppDifference = Math.round(pppDifference * 100);
+                // Excellent: precio dentro del 20% del PPP
+                if (appData.pppPrice && appData.regionalStatus !== "expensive") {
+                    const pppDifference = Math.abs(appData.arsPrice - appData.pppPrice) / appData.pppPrice;
+                    if (pppDifference <= 0.20) {
+                        appData.regionalStatus = "excellent";
+                        appData.pppDifference = Math.round(pppDifference * 100);
+                    }
+                }
+
+                console.log("timbocito debug: Estado regional calculado:", appData.regionalStatus);
+
+                if(sidebar){
+                    console.log("timbocito debug: Renderizando barra regional...");
+                    renderRegionalIndicator(appData, exchangeRate);
+                }
+                return appData;
+            } else {
+                console.log("timbocito debug: success de alguna respuesta es falso");
             }
+        } else {
+            console.log(`timbocito debug: appIdResponse[${id}] o appIdArgResponse[${id}] es nulo/indefinido`);
         }
-
-        renderRegionalIndicator(appData, exchangeRate);
-        return appData;
-
+    } catch(err) {
+        console.error("timbocito debug: Error fatal en getAppPricing:", err);
     }
 }
 
@@ -168,6 +199,8 @@ const renderExchangeIndicator = (exchangeRate,exchangeRateDate,tarjetaTax) => {
     }
     
     let sidebar = document.querySelector('.rightcol.game_meta_data');
+
+    if(!sidebar) return;
 
     let staticExchangeRate = exchangeRate;
 
@@ -247,11 +280,13 @@ const renderRegionalIndicator = (appData, exchangeRate) => {
     
     let sidebar = document.querySelector('.rightcol.game_meta_data');
 
+    if(!sidebar) return;
+
     let container =
         `
     <div class="block responsive_apppage_details_right heading heading_steamcito_1 heading_timbocito_1">
         <p>Análisis de precio regional</p>    
-        <span>por timbocito</span>
+        <span>por Timbocito</span>
     
     </div>
     <div class="block responsive_apppage_details_right recommendation_reasons regional-meter-wrapper ${indicatorStyle} content_steamcito_1 content_timbocito_1">
@@ -514,5 +549,5 @@ const renderRegionalIndicator = (appData, exchangeRate) => {
 
 getExchangeRate();
 
-const appData = getAppData(url);
+const appData = getAppData(regionalUrl);
 getAppPricing(appData);

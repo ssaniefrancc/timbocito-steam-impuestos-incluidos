@@ -139,8 +139,8 @@ const getExchangeRate = async () => {
     let mepTax = JSON.parse(localStorage.getItem('timbocito-cotizacion-mep'))?.taxAmount || 10
 
 
-    if(exchangeRate && exchangeRateDate && exchangeRateCrypto && exchangeRateCryptoDate && exchangeRateMep && exchangeRateMepDate && tarjetaTax && cryptoTax && mepTax){
-        renderExchangeIndicator(exchangeRate,exchangeRateDate,exchangeRateCrypto,exchangeRateCryptoDate,exchangeRateMep,exchangeRateMepDate,tarjetaTax,cryptoTax,mepTax)
+    if(exchangeRate && exchangeRateDate){
+        renderExchangeIndicator(exchangeRate,exchangeRateDate,exchangeRate,exchangeRateDate,exchangeRate,exchangeRateDate,tarjetaTax,tarjetaTax,tarjetaTax)
     }
 }
 
@@ -251,6 +251,8 @@ const renderExchangeIndicator = (exchangeRate,exchangeRateDate,exchangeRateCrypt
     
     let sidebar = document.querySelector('.rightcol.game_meta_data');
 
+    if(!sidebar) return;
+
     let staticExchangeRate = exchangeRate;
 
     provinceTaxes &&
@@ -275,13 +277,9 @@ const renderExchangeIndicator = (exchangeRate,exchangeRateDate,exchangeRateCrypt
                 </span>
             </p>
 
-            </div>
-
         </div>
-
-
-    
     `;
+    
 
     sidebar.insertAdjacentHTML('afterbegin', container);
 
@@ -340,6 +338,8 @@ const renderRegionalIndicator = (appData, exchangeRate) => {
     }
     
     let sidebar = document.querySelector('.rightcol.game_meta_data');
+
+    if(!sidebar) return;
 
     let container =
         `
