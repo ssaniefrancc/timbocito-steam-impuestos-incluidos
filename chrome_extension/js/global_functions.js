@@ -6,7 +6,7 @@ function getPrices(type){
     if (type == "standard"){
         prices = document.querySelectorAll(priceContainers);
         // Fix específico para obtener las DLCs sin descuento y que estas no hagan overlap con las DLCs con descuento
-        let standardDlcPrices = document.querySelectorAll(`.game_area_dlc_price:not([${attributeName}]`);
+        let standardDlcPrices = document.querySelectorAll(`.game_area_dlc_price:not([${attributeName}])`);
         standardDlcPrices.forEach(dlcPrice => { 
             if(!dlcPrice.querySelector("div")){
                 setArgentinaPrice(dlcPrice);
@@ -41,13 +41,13 @@ function getNeededWalletAmount(currentWalletAmount){
 }
 
 function setPaymentMethodName(){
-    let paymentMethod = localStorage.getItem('metodo-de-pago') || "steamcito-cotizacion-tarjeta";
+    let paymentMethod = localStorage.getItem('metodo-de-pago') || "timbocito-cotizacion-tarjeta";
     return "Tarjeta";
 }
 
 function renderCart(){
     let paymentMethod = setPaymentMethodName();
-    let cotizacion = JSON.parse(localStorage.getItem('steamcito-cotizacion-tarjeta'));
+    let cotizacion = JSON.parse(localStorage.getItem('timbocito-cotizacion-tarjeta'));
     let exchangeRateTarjeta = cotizacion?.rate;
 
     if(!exchangeRateTarjeta){
@@ -76,25 +76,25 @@ function renderCart(){
             let estimatedTotalDisplay = walletBalance < parseFloat(totalWallet) ? "hide" : "show";
             let totalMixedDisplay = estimatedTotalDisplay == "hide" && walletBalance != 0 ? "show" : "hide";
 
-            if(!document.querySelector('.steamcito_cart')){
+            if(!document.querySelector('.timbocito_cart')){
                 cartSidebar.insertAdjacentHTML('beforebegin', `
                 
-                <div class="steamcito_cart">
-                    <div class="steamcito_cart_wallet">
-                        <p class="steamcito_cart_wallet_label">Total Exacto pagando con Steam Wallet</p>
-                        <span class="steamcito_cart_wallet_value"></span>
+                <div class="timbocito_cart">
+                    <div class="timbocito_cart_wallet">
+                        <p class="timbocito_cart_wallet_label">Total Exacto pagando con Steam Wallet</p>
+                        <span class="timbocito_cart_wallet_value"></span>
                     </div>
-                    <div class="steamcito_cart_currentmethod">
-                        <p class="steamcito_cart_currentmethod_label">Total Aproximado pagando con ${paymentMethod} </p>
-                        <span class="steamcito_cart_currentmethod_value"></span>
+                    <div class="timbocito_cart_currentmethod">
+                        <p class="timbocito_cart_currentmethod_label">Total Aproximado pagando con ${paymentMethod} </p>
+                        <span class="timbocito_cart_currentmethod_value"></span>
                     </div>
-                    <div class="steamcito_cart_mixed">
-                        <p class="steamcito_cart_mixed_label">Total Pagando con Steam Wallet + ${paymentMethod} </p>
-                        <span class="steamcito_cart_mixed_value"></span>
+                    <div class="timbocito_cart_mixed">
+                        <p class="timbocito_cart_mixed_label">Total Pagando con Steam Wallet + ${paymentMethod} </p>
+                        <span class="timbocito_cart_mixed_value"></span>
                     </div>
                 </div>
 
-                <div class="steamcito_cart_exchangerate">
+                <div class="timbocito_cart_exchangerate">
                     <p>Cotización aproximada con ${paymentMethod} </p>
                     <span class="exchangerate_value">1 USD ≈ ${numberToString(staticExchangeRate.toFixed(0))} ${emojiMate}</span>
                     <br>
@@ -105,10 +105,10 @@ function renderCart(){
                 `)
             }
 
-            let cartTotalWalletContainer = document.querySelector('.steamcito_cart_wallet_value');
-            let cartTotalCurrentMethodContainer = document.querySelector('.steamcito_cart_currentmethod_value');
-            let mixedWrapper = document.querySelector('.steamcito_cart_mixed');
-            let cartTotalMixedContainer = document.querySelector('.steamcito_cart_mixed_value');
+            let cartTotalWalletContainer = document.querySelector('.timbocito_cart_wallet_value');
+            let cartTotalCurrentMethodContainer = document.querySelector('.timbocito_cart_currentmethod_value');
+            let mixedWrapper = document.querySelector('.timbocito_cart_mixed');
+            let cartTotalMixedContainer = document.querySelector('.timbocito_cart_mixed_value');
             
             cartTotalWalletContainer.innerText = `${numberToStringUsd(totalWallet)}`
             cartTotalCurrentMethodContainer.innerText = `${numberToString(totalWithCurrentPaymentMethod)}`
@@ -138,7 +138,7 @@ function renderCart(){
 async function getOwnedGames(){
     // Si el usuario está logueado
     if(document.querySelector("#header_wallet_balance")){
-        let shouldRefreshOwnedList = evaluateDate('steamcito-owned-games',86400);
+        let shouldRefreshOwnedList = evaluateDate('timbocito-owned-games',86400);
         if(shouldRefreshOwnedList){
             const ownedGames = await fetch(`/dynamicstore/userdata/?time=${Date.now()}`)
             const ownedGamesJSON = await ownedGames.json();
@@ -147,12 +147,12 @@ async function getOwnedGames(){
                     games: ownedGamesJSON.rgOwnedApps,
                     date: Date.now()
                 }
-                localStorage.setItem('steamcito-owned-games',JSON.stringify(ownedGamesObject))
+                localStorage.setItem('timbocito-owned-games',JSON.stringify(ownedGamesObject))
             }
         }
     } else{
         // El usuario no está logueado, limpiar la listita local
-        localStorage.removeItem('steamcito-owned-games')
+        localStorage.removeItem('timbocito-owned-games')
     }
 }
 
@@ -160,7 +160,7 @@ async function getOwnedGames(){
 async function setArgentinaPrice(price){
     // await getUsdExchangeRate(); Comento esta línea para prevenir actualizaciones innecesarias
 
-    let selectedPaymentMethod = localStorage.getItem('metodo-de-pago') || "steamcito-cotizacion-tarjeta";
+    let selectedPaymentMethod = localStorage.getItem('metodo-de-pago') || "timbocito-cotizacion-tarjeta";
     let exchangeRate = JSON.parse(localStorage.getItem(selectedPaymentMethod))?.rate;
 
     // Si no hay cotización en localStorage, intentar obtenerla antes de renderizar
@@ -337,7 +337,7 @@ async function processExchangeRate(type,localStorageItemKey,defaultValue){
 }
 
 async function getUsdExchangeRate(){
-    let shouldRefresh = evaluateDate('steamcito-cotizacion-tarjeta', 3600); // Solo actualiza si pasó más de 1 hora
+    let shouldRefresh = evaluateDate('timbocito-cotizacion-tarjeta', 3600); // Solo actualiza si pasó más de 1 hora
     if(shouldRefresh){
         try {
             // Usamos una API gratuita y pública para obtener USD -> PYG
@@ -356,22 +356,22 @@ async function getUsdExchangeRate(){
                 };
 
                 // Guardamos la misma cotización para todos los métodos para simplificar en Paraguay
-                localStorage.setItem('steamcito-cotizacion-tarjeta', JSON.stringify(exchangeRateJSON));
-                localStorage.setItem('steamcito-cotizacion-crypto', JSON.stringify(exchangeRateJSON));
-                localStorage.setItem('steamcito-cotizacion-mep', JSON.stringify(exchangeRateJSON));
-                console.log("Steamcito PY: Cotización actualizada correctamente", pygRate);
+                localStorage.setItem('timbocito-cotizacion-tarjeta', JSON.stringify(exchangeRateJSON));
+                localStorage.setItem('timbocito-cotizacion-crypto', JSON.stringify(exchangeRateJSON));
+                localStorage.setItem('timbocito-cotizacion-mep', JSON.stringify(exchangeRateJSON));
+                console.log("timbocito PY: Cotización actualizada correctamente", pygRate);
             }
         } catch (error) {
-            console.error("Steamcito PY: Error al obtener cotización, usando valor por defecto 6100", error);
+            console.error("timbocito PY: Error al obtener cotización, usando valor por defecto 6100", error);
             const fallbackJSON = {
                 rate : 6100,
                 taxAmount: 10,
                 rateDateProvided: new Date().toLocaleString("es-PY"),
                 date: Date.now()
             };
-            localStorage.setItem('steamcito-cotizacion-tarjeta', JSON.stringify(fallbackJSON));
-            localStorage.setItem('steamcito-cotizacion-crypto', JSON.stringify(fallbackJSON));
-            localStorage.setItem('steamcito-cotizacion-mep', JSON.stringify(fallbackJSON));
+            localStorage.setItem('timbocito-cotizacion-tarjeta', JSON.stringify(fallbackJSON));
+            localStorage.setItem('timbocito-cotizacion-crypto', JSON.stringify(fallbackJSON));
+            localStorage.setItem('timbocito-cotizacion-mep', JSON.stringify(fallbackJSON));
         }
     }
 }
@@ -379,7 +379,7 @@ async function getUsdExchangeRate(){
 
 async function getBnaExchangeRate(){ // Legacy function: not used!
 
-    let shouldGetNewRate = evaluateDate('steamcito-cotizacion-bna');
+    let shouldGetNewRate = evaluateDate('timbocito-cotizacion-bna');
 
     if(shouldGetNewRate){
         try{
@@ -396,10 +396,10 @@ async function getBnaExchangeRate(){ // Legacy function: not used!
             }
 
     
-        localStorage.setItem('steamcito-cotizacion-bna', JSON.stringify(exchangeRateJSON));
+        localStorage.setItem('timbocito-cotizacion-bna', JSON.stringify(exchangeRateJSON));
         }
         catch(err){
-            localStorage.setItem('steamcito-cotizacion-bna', JSON.stringify({
+            localStorage.setItem('timbocito-cotizacion-bna', JSON.stringify({
                 rate:841.25,
                 rateDateProvided:"23/01/2024 - 15:57",
                 date:Date.now()
@@ -458,3 +458,15 @@ function findPricesInSearch() {
 
 
 getOwnedGames();
+
+// Lógica de ejecución según la página
+const url = window.location.href;
+if(url.includes("store.steampowered.com/cart") || url.includes("store.steampowered.com/checkout")){
+    getPrices("cart");
+} else if(url.includes("store.steampowered.com/search")){
+    getPrices("search");
+} else if(url.includes("store.steampowered.com/wishlist")){
+    getPrices("wishlist");
+} else {
+    getPrices("standard");
+}
