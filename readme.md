@@ -47,30 +47,6 @@ https://github.com/emilianog94/Steamcito-Precios-Steam-Argentina-Impuestos-Inclu
 
 ---
 
-# 🌐 Instalación en Navegador
-
-### 1. Descargar el código fuente
-
-Descarga la última versión del proyecto:
-
-https://github.com/ssaniefrancc/timbocito-steam-impuestos-incluidos/archive/refs/tags/1.0.0.zip
-
-### 2. Abrir extensiones del navegador
-
-![Paso 1](misc/browser_search.gif)
-
-### 3. Activar el modo desarrollador
-
-![Paso 2](misc/developer_mode.gif)
-
-### 4. Cargar la extensión
-
-Haz clic en **"Load unpacked / Cargar extensión sin empaquetar"**, selecciona la carpeta `chrome_extension` del código fuente descargado y presiona **Aceptar**.
-
-![Paso 3](misc/load_extension.gif)
-
----
-
 # 🎮 Instalación en Steam
 
 ### 1. Descargar el archivo `.crx`
@@ -102,6 +78,30 @@ y presiona Enter.
 Activa el **modo desarrollador** y arrastra el archivo `.crx` descargado anteriormente.
 
 ![Paso 6](misc/steam_load.gif)
+
+---
+
+# 🌐 Instalación en Navegador
+> Tambien se puede instalar de la misma manera que la anterior forma pero esta en caso de que no les funcione por a o b motivo
+### 1. Descargar el código fuente
+
+Descarga la última versión del proyecto:
+
+https://github.com/ssaniefrancc/timbocito-steam-impuestos-incluidos/archive/refs/tags/1.0.0.zip
+
+### 2. Abrir extensiones del navegador
+
+![Paso 1](misc/browser_search.gif)
+
+### 3. Activar el modo desarrollador
+
+![Paso 2](misc/developer_mode.gif)
+
+### 4. Cargar la extensión
+
+Haz clic en **"Load unpacked / Cargar extensión sin empaquetar"**, selecciona la carpeta `chrome_extension` del código fuente descargado y presiona **Aceptar**.
+
+![Paso 3](misc/load_extension.gif)
 
 ---
 
