@@ -1,12 +1,19 @@
 function createMenus(){
+    // En páginas de juego el ícono se muestra junto al "Centro de la comunidad",
+    // así que no lo insertamos en el header para evitar que aparezca dos veces.
+    const isGamePage = !!document.querySelector('.apphub_OtherSiteInfo');
+
     let oldMenu = document.querySelector("#global_action_menu") || document.querySelector('#checkout_steam_logo span');
     let timbocitoIcon = 
     `<div class="ico-timbocito"> 
         🧉
     </div>`;
-    oldMenu && oldMenu.insertAdjacentHTML('afterend',timbocitoIcon);
+    if (!isGamePage) {
+        oldMenu && oldMenu.insertAdjacentHTML('afterend', timbocitoIcon);
+    }
     timbocitoIcon = document.querySelector(".ico-timbocito");
-    timbocitoIcon && timbocitoIcon.addEventListener('click',showMenu);
+    timbocitoIcon && timbocitoIcon.addEventListener('click', showMenu);
+
 
     let timbocitoMenu = `
     <div class="menu-timbocito-background"></div>
@@ -78,7 +85,7 @@ function createMenus(){
                 <div class="ayuda-timbocito"> 
                     <div class="grupo-opciones">
                         <h3>Enlaces Útiles</h3>
-                        <a href="https://www.set.gov.py/" target="_blank">Información sobre IVA Digital 🇵🇾</a>
+                        <a href="https://www.dnit.gov.py/web/portal-institucional/iva" target="_blank">Información sobre IVA Digital 🇵🇾</a>
                         <a href="https://github.com/ssaniefrancc/timbocito-steam-impuestos-incluidos" target="_blank">Ver código fuente en GitHub 💻</a>
                         <a href="https://partner.steamgames.com/pricing" target="_blank">Precios Regionales de Valve 📊</a>
                         ${getReviewLink()} 
@@ -139,7 +146,8 @@ function showMenu(e){
 }
 
 function hideMenu(e){
-    if(!menu.contains(e.target) && !timbocitoIcon.contains(e.target)) {
+    let shortcutBtn = document.querySelector(".timbocito-shortcut");
+    if(!menu.contains(e.target) && !timbocitoIcon.contains(e.target) && (!shortcutBtn || !shortcutBtn.contains(e.target))) {
         menu.classList.remove('enabled');
         menuBackground.classList.remove('menu-timbocito-background-enabled');
         document.body.classList.remove('menu-enabled');
@@ -148,7 +156,7 @@ function hideMenu(e){
 }
 
 function setEmojis(){
-    return ['<span class="emojis">🧉</span>','<span class="emojis">💲</span>'];        
+    return ['<span class="emojis"><b>PYG</b></span>','<span class="emojis">💲</span>'];        
 }
 
 // Inicializo Menú 
@@ -178,3 +186,28 @@ setInitialLocalStates();
 const emojis = setEmojis();
 const emojiMate = emojis[0];
 const emojiWallet = emojis[1];
+
+function renderTimbocitoShortcut() {
+    let otherSiteInfoContainer = document.querySelector('.apphub_OtherSiteInfo');
+    if (otherSiteInfoContainer) {
+        if (document.querySelector('.timbocito-shortcut')) return;
+
+        let shortcutHTML = `
+            <a class="btnv6_blue_hoverfade btn_medium btn_icon_link timbocito-shortcut" data-tooltip-text="Configuración de Timbocito">
+                <span>🧉</span>
+            </a>
+        `;
+        otherSiteInfoContainer.insertAdjacentHTML('afterbegin', shortcutHTML);
+        
+        let shortcutBtn = otherSiteInfoContainer.querySelector('.timbocito-shortcut');
+        if (shortcutBtn) {
+            shortcutBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                showMenu(e);
+            });
+        }
+    }
+}
+
+renderTimbocitoShortcut();
+

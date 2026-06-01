@@ -1574,3 +1574,24 @@ body {
     opacity: 0.25;
   }
 }
+
+// Shortcut button en .apphub_OtherSiteInfo (página de juego en la comunidad)
+.timbocito-shortcut {
+  font-family: 'timbocito-emojis-noto', sans-serif !important;
+  font-size: 1.1rem !important;
+  cursor: pointer;
+  transition: transform 0.25s ease, filter 0.25s ease;
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+
+  span {
+    font-family: 'timbocito-emojis-noto', sans-serif;
+    font-size: 1.1rem;
+    line-height: 1;
+  }
+
+  &:hover {
+    filter: brightness(1.25);
+  }
+}

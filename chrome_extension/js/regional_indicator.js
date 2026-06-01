@@ -241,17 +241,17 @@ const renderPriceIndicators = (appData, exchangeRate) => {
 
     return(`
         <p class="reason info">
-            Precio sugerido LATAM <br><span class="regional-meter-price">${numberToString(taxesPY(appData.recommendedArsPrice))} ${emojiMate}</span>
+            Precio sugerido LATAM <br><span class="regional-meter-price-us">USD$ ${parseFloat(appData.recommendedArsPrice).toFixed(2)}</span>
             ${appData.discount != 0 
                 ?
-                `<span class="regional-meter-price timbocito-strikethrough-price">${numberToString(taxesPY(appData.baseRecommendedArsPrice))}</span>`
+                `<span class="timbocito-strikethrough-price">USD$ ${parseFloat(appData.baseRecommendedArsPrice).toFixed(2)}</span>`
                 :
                 ""
             }
         </p>
         <hr>
         <p class="reason info">
-            Precio actual en Paraguay<br><span class="regional-meter-price">${numberToString(taxesPY(appData.arsPrice))} ${emojiMate}</span>
+            Precio actual en Paraguay<br><span class="regional-meter-price">${numberToString(taxesPY(appData.arsPrice))}</span>
             ${appData.discount != 0 
                 ?
                 `<span class="regional-meter-price timbocito-strikethrough-price">${numberToString(taxesPY(appData.baseArsPrice))}</span>`
@@ -292,19 +292,19 @@ const renderRegionalIndicator = (appData, exchangeRate) => {
     <div class="block responsive_apppage_details_right recommendation_reasons regional-meter-wrapper ${indicatorStyle} content_steamcito_1 content_timbocito_1">
         <div class="regional-meter-container">
             <div class="regional-meter-bar regional-meter-bar--expensive ${appData.regionalStatus == "expensive" && "regional-meter-bar--selected"}">
-                <span>No tiene</span>
+                <span>Off</span>
             </div>
             <div class="regional-meter-bar regional-meter-bar--semifair ${appData.regionalStatus == "semifair" && "regional-meter-bar--selected"}">
-                <span>Elevado</span>
+                <span>Mbore</span>
             </div>
             <div class="regional-meter-bar regional-meter-bar--fair ${appData.regionalStatus == "fair" && "regional-meter-bar--selected"}">
-                <span>Bueno</span>
+                <span>Omacha</span>
             </div>
             <div class="regional-meter-bar regional-meter-bar--cheap ${appData.regionalStatus == "cheap" && "regional-meter-bar--selected"}">
-                <span>Muy bueno</span>
+                <span>Oiko'i</span>
             </div>
             <div class="regional-meter-bar regional-meter-bar--excellent ${appData.regionalStatus == "excellent" && "regional-meter-bar--selected"}">
-                <span>Increíble</span>
+                <span>Oikoite</span>
             </div>
         </div>
 
