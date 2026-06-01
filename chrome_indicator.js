@@ -259,11 +259,11 @@ const renderExchangeIndicator = (exchangeRate,exchangeRateDate,exchangeRateCrypt
     })
 
     let container = `
-        <div class="block responsive_apppage_details_right heading heading_timbocito_3">
+        <div class="block responsive_apppage_details_right heading heading_steamcito_3 heading_timbocito_3">
             Cotización del dólar
         </div>
 
-        <div class="block responsive_apppage_details_right recommendation_reasons regional-meter-wrapper cotizacion-wrapper ${indicatorStyle} content_timbocito_3">
+        <div class="block responsive_apppage_details_right recommendation_reasons regional-meter-wrapper cotizacion-wrapper ${indicatorStyle} content_steamcito_3 content_timbocito_3">
 
             
             <p class="reason for dolar_tarjeta">
@@ -343,12 +343,12 @@ const renderRegionalIndicator = (appData, exchangeRate) => {
 
     let container =
         `
-    <div class="block responsive_apppage_details_right heading heading_timbocito_1">
+    <div class="block responsive_apppage_details_right heading heading_steamcito_1 heading_timbocito_1">
         <p>Análisis de precio regional</p>    
         <span>por Timbocito</span>
     
     </div>
-    <div class="block responsive_apppage_details_right recommendation_reasons regional-meter-wrapper ${indicatorStyle} content_timbocito_1">
+    <div class="block responsive_apppage_details_right recommendation_reasons regional-meter-wrapper ${indicatorStyle} content_steamcito_1 content_timbocito_1">
         <div class="regional-meter-container">
             <div class="regional-meter-bar regional-meter-bar--expensive ${appData.regionalStatus == "expensive" && "regional-meter-bar--selected"}">
                 <span>No tiene</span>

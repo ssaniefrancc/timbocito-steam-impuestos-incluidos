@@ -79,7 +79,7 @@ function renderCart(){
             if(!document.querySelector('.timbocito_cart')){
                 cartSidebar.insertAdjacentHTML('beforebegin', `
                 
-                <div class="timbocito_cart">
+                <div class="steamcito_cart timbocito_cart">
                     <div class="timbocito_cart_wallet">
                         <p class="timbocito_cart_wallet_label">Total Exacto pagando con Steam Wallet</p>
                         <span class="timbocito_cart_wallet_value"></span>

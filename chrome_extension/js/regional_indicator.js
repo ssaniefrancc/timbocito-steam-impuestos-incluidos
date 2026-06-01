@@ -51,9 +51,9 @@ const criticizePublisher = (margin,publisher) => {
 
 const getExchangeRate = async () => {
     await getUsdExchangeRate();
-    let exchangeRate = JSON.parse(localStorage.getItem('steamcito-cotizacion-tarjeta'))?.rate;
-    let exchangeRateDate = JSON.parse(localStorage.getItem('steamcito-cotizacion-tarjeta'))?.rateDateProvided;
-    let tarjetaTax = JSON.parse(localStorage.getItem('steamcito-cotizacion-tarjeta'))?.taxAmount || 10
+    let exchangeRate = JSON.parse(localStorage.getItem('timbocito-cotizacion-tarjeta'))?.rate;
+    let exchangeRateDate = JSON.parse(localStorage.getItem('timbocito-cotizacion-tarjeta'))?.rateDateProvided;
+    let tarjetaTax = JSON.parse(localStorage.getItem('timbocito-cotizacion-tarjeta'))?.taxAmount || 10
 
 
     if(exchangeRate && exchangeRateDate && tarjetaTax){
@@ -71,7 +71,7 @@ const getAppPricing = async (appInitialData) => {
 
     const appIdFetchArg = await fetch(`${type == "app" ? `${appEndpoint}&cc=ar` : `${subEndpoint}&cc=ar`}`, { credentials: 'omit' })
 
-    let exchangeRate = JSON.parse(localStorage.getItem('steamcito-cotizacion-tarjeta'))?.rate;
+    let exchangeRate = JSON.parse(localStorage.getItem('timbocito-cotizacion-tarjeta'))?.rate;
 
 
     let appIdResponse = await appIdFetch.json();
@@ -177,11 +177,11 @@ const renderExchangeIndicator = (exchangeRate,exchangeRateDate,tarjetaTax) => {
     })
 
     let container = `
-        <div class="block responsive_apppage_details_right heading heading_steamcito_3">
+        <div class="block responsive_apppage_details_right heading heading_steamcito_3 heading_timbocito_3">
             Cotización del dólar
         </div>
 
-        <div class="block responsive_apppage_details_right recommendation_reasons regional-meter-wrapper cotizacion-wrapper ${indicatorStyle} content_steamcito_3">
+        <div class="block responsive_apppage_details_right recommendation_reasons regional-meter-wrapper cotizacion-wrapper ${indicatorStyle} content_steamcito_3 content_timbocito_3">
 
             
             <p class="reason for dolar_tarjeta">
@@ -199,7 +199,7 @@ const renderExchangeIndicator = (exchangeRate,exchangeRateDate,tarjetaTax) => {
     sidebar.insertAdjacentHTML('afterbegin', container);
 
     let dolarTarjetaItem = document.querySelector('.dolar_tarjeta');
-    dolarTarjetaItem && dolarTarjetaItem.addEventListener('click', () => {changePaymentMethodState('steamcito-cotizacion-tarjeta');window.location.reload()} )
+    dolarTarjetaItem && dolarTarjetaItem.addEventListener('click', () => {changePaymentMethodState('timbocito-cotizacion-tarjeta');window.location.reload()} )
 }
 
 
@@ -211,7 +211,7 @@ const renderPriceIndicators = (appData, exchangeRate) => {
             Precio sugerido LATAM <br><span class="regional-meter-price">${numberToString(taxesPY(appData.recommendedArsPrice))} ${emojiMate}</span>
             ${appData.discount != 0 
                 ?
-                `<span class="regional-meter-price steamcito-strikethrough-price">${numberToString(taxesPY(appData.baseRecommendedArsPrice))}</span>`
+                `<span class="regional-meter-price timbocito-strikethrough-price">${numberToString(taxesPY(appData.baseRecommendedArsPrice))}</span>`
                 :
                 ""
             }
@@ -221,7 +221,7 @@ const renderPriceIndicators = (appData, exchangeRate) => {
             Precio actual en Paraguay<br><span class="regional-meter-price">${numberToString(taxesPY(appData.arsPrice))} ${emojiMate}</span>
             ${appData.discount != 0 
                 ?
-                `<span class="regional-meter-price steamcito-strikethrough-price">${numberToString(taxesPY(appData.baseArsPrice))}</span>`
+                `<span class="regional-meter-price timbocito-strikethrough-price">${numberToString(taxesPY(appData.baseArsPrice))}</span>`
                 :
                 ""
             }
@@ -231,7 +231,7 @@ const renderPriceIndicators = (appData, exchangeRate) => {
             Precio actual en Estados Unidos<br><span class="regional-meter-price-us">USD$ ${appData.usdPrice} </span> 
             ${appData.discount != 0 
                 ?
-                `<span class="steamcito-strikethrough-price">USD$ ${appData.baseUsdPrice} </span>`
+                `<span class="timbocito-strikethrough-price">USD$ ${appData.baseUsdPrice} </span>`
                 :
                 ""
             }
@@ -249,12 +249,12 @@ const renderRegionalIndicator = (appData, exchangeRate) => {
 
     let container =
         `
-    <div class="block responsive_apppage_details_right heading heading_steamcito_1">
+    <div class="block responsive_apppage_details_right heading heading_steamcito_1 heading_timbocito_1">
         <p>Análisis de precio regional</p>    
-        <span>por Steamcito</span>
+        <span>por timbocito</span>
     
     </div>
-    <div class="block responsive_apppage_details_right recommendation_reasons regional-meter-wrapper ${indicatorStyle} content_steamcito_1">
+    <div class="block responsive_apppage_details_right recommendation_reasons regional-meter-wrapper ${indicatorStyle} content_steamcito_1 content_timbocito_1">
         <div class="regional-meter-container">
             <div class="regional-meter-bar regional-meter-bar--expensive ${appData.regionalStatus == "expensive" && "regional-meter-bar--selected"}">
                 <span>No tiene</span>
@@ -275,7 +275,7 @@ const renderRegionalIndicator = (appData, exchangeRate) => {
 
         ${appData.usdPrice == appData.arsPrice && (appData.support_email || appData.support_url)
             ?
-            `<span class="notify-publisher-button green-steamcito-button">Solicitar precio regional</span>`
+            `<span class="notify-publisher-button green-timbocito-button">Solicitar precio regional</span>`
             : 
             ""
         }
@@ -427,7 +427,7 @@ const renderRegionalIndicator = (appData, exchangeRate) => {
                         ? `<p class="publisher-email">${appData.support_email}</p>`
                         : `<a target=_blank href="${appData.support_url}">${appData.support_url}</a> &nbsp; (${appData.publisher} no brinda un mail de contacto público)`
                     }  
-                    ${appData.support_email ? `<button class="copiar-texto-steamcito green-steamcito-button" type="button" data-clipboard="publisher-email">Copiar</button>` : ""}
+                    ${appData.support_email ? `<button class="copiar-texto-timbocito green-timbocito-button" type="button" data-clipboard="publisher-email">Copiar</button>` : ""}
                 </div>
 
             </div>
@@ -441,7 +441,7 @@ const renderRegionalIndicator = (appData, exchangeRate) => {
                     <h5>Asunto</h5> 
                     <div class="publisher-popup-flex-container">
                         <p class="publisher-subject">Question about new regional pricing on ${appData.name}</p> 
-                        <button class="copiar-texto-steamcito green-steamcito-button" type="button" data-clipboard="publisher-subject">Copiar</button>
+                        <button class="copiar-texto-timbocito green-timbocito-button" type="button" data-clipboard="publisher-subject">Copiar</button>
                     </div>
                 </div>
                 <hr>
@@ -457,7 +457,7 @@ const renderRegionalIndicator = (appData, exchangeRate) => {
                 <div class="email-template-container-subheader">
                     <div class="publisher-popup-flex-container">
                         <h5>Cuerpo del Mensaje</h5>
-                        <button class="copiar-texto-steamcito green-steamcito-button" type="button" data-clipboard="email-template">Copiar</button>
+                        <button class="copiar-texto-timbocito green-timbocito-button" type="button" data-clipboard="email-template">Copiar</button>
                     </div>
 
                 </div>
@@ -486,7 +486,7 @@ const renderRegionalIndicator = (appData, exchangeRate) => {
 
     if(appData.usdPrice == appData.arsPrice  && (appData.support_email || appData.support_url)){
 
-        let clipboardHandlers = document.querySelectorAll('.copiar-texto-steamcito');
+        let clipboardHandlers = document.querySelectorAll('.copiar-texto-timbocito');
         clipboardHandlers.forEach(handler => {
             let valueToCopy = document.querySelector(`.${handler.dataset.clipboard}`)
             handler.addEventListener('click', () => {
