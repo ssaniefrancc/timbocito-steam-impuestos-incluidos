@@ -8,8 +8,8 @@
 ![GitHub Release Date](https://img.shields.io/github/release-date/emilianog94/Steamcito-Precios-Steam-Argentina-Impuestos-Incluidos?label=Fecha)
 
 
-# Steamcito Paraguay - Precios en Guaraníes para Steam
-Steamcito Paraguay es un fork de la popular extensión Steamcito, adaptado específicamente para los usuarios de Paraguay. Calcula automáticamente los precios de todos los juegos de USD a Guaraníes (PYG) e incluye el IVA del 10% de servicios digitales.
+# Timbocito Paraguay - Precios en Guaraníes para Steam
+Timbocito Paraguay es un fork de la popular extensión Steamcito, adaptado específicamente para los usuarios de Paraguay. Calcula automáticamente los precios de todos los juegos de USD a Guaraníes (PYG) e incluye el IVA del 10% de servicios digitales.
 
 Ya no necesitas calculadoras externas para saber cuánto vas a pagar en tu extracto bancario.
 
@@ -62,11 +62,6 @@ Steamcito funciona en absolutamente todas las secciones donde se visualicen prec
 ## Instrucciones de instalación y uso
 1. Instalá Steamcito [en tu navegador favorito](https://www.steamcito.com.ar)
 2. ¡Listo! Ya podés entrar a la tienda de Steam desde tu navegador y Steamcito estará funcionando.
-
-***
-
-## ¿Tenés planeado hacer algo similar para Origin, Microsoft, Epic Store, Playstation Store, etc?
-¡Ya existe una muy buena extensión para otras tiendas! <a href="https://github.com/lucasromerodb/impuestito">Te recomiendo usar Impuestito</a> que aún está en desarrollo y hace los cálculos de impuestos para la mayoría de las tiendas 😀
 
 ***
 
