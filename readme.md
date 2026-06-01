@@ -43,7 +43,6 @@ https://github.com/emilianog94/Steamcito-Precios-Steam-Argentina-Impuestos-Inclu
   * 🟢 Barato
   * 🟡 Adecuado
   * 🔴 Caro
-* 📨 Botón para solicitar precio regional al publicador cuando un juego no dispone de precio regional.
 * 🎮 Cálculo inteligente considerando tu saldo de **Steam Wallet**.
 
 ---
