@@ -359,8 +359,8 @@ const regionalPricingOptionsLatam = regionalPricingChartLatam.map(item => item.u
 
 
 function setProvinceTax() {
-    if (localStorage.hasOwnProperty('province-tax')) {
-        let taxValue = localStorage.getItem('province-tax');
+    if (localStorage.hasOwnProperty('timbocito-province-tax')) {
+        let taxValue = localStorage.getItem('timbocito-province-tax');
 
         if (taxValue == 0) {
             return [{
@@ -380,8 +380,8 @@ function setProvinceTax() {
 
 function setNationalTax() {
 
-    if (localStorage.hasOwnProperty('national-tax')) {
-        let taxValue = localStorage.getItem('national-tax');
+    if (localStorage.hasOwnProperty('timbocito-national-tax')) {
+        let taxValue = localStorage.getItem('timbocito-national-tax');
 
         standardTaxes = [{
             name: "Impuestos Nacionales personalizados por vos",
@@ -495,7 +495,7 @@ function getBalance() {
         // Fix para resolver problema de detección de saldo cuando tenés un reembolso pendiente
         let walletBalance = document.createElement('p');
         walletBalance.innerText = walletBalanceContainer.innerText;
-        if(walletBalance.innerText.indexOf('Pend')){
+        if(walletBalance.innerText.includes('Pend')){
             walletBalance.innerText = walletBalance.innerText.slice(0, walletBalance.innerText.indexOf('Pend'))
         }
         // return 6.12;

@@ -19,6 +19,7 @@ function createMenus(){
     <div class="menu-timbocito-background"></div>
     <div class="menu-timbocito">
             <div class="internal-menu">
+                <div class="cerrar-menu-timbocito" style="position: absolute; top: 15px; right: 20px; cursor: pointer; font-size: 16px; font-weight: bold; padding: 4px 10px; color: #fff; background: rgba(0,0,0,0.5); border-radius: 5px; line-height: 1;">✕</div>
                 <span class="titulo">CONFIGURACIÓN DE timbocito <br><span class="titulo__version"> Versión ${chrome.runtime.getManifest().version}</span></span>
 
                 <div class="opciones-avanzadas-timbocito">
@@ -104,8 +105,8 @@ function getReviewLink(){
 }
 
 function setInitialLocalStates(){
-    if(nationalTax) { localStorage.getItem('national-tax') && localStorage.getItem('national-tax') != '0' ? nationalTax.value = localStorage.getItem('national-tax') : localStorage.setItem('national-tax',10); }
-    if(provinceTax) { localStorage.getItem('province-tax') ? provinceTax.value=localStorage.getItem('province-tax') : localStorage.removeItem('province-tax'); }
+    if(nationalTax) { localStorage.getItem('timbocito-national-tax') && localStorage.getItem('timbocito-national-tax') != '0' ? nationalTax.value = localStorage.getItem('timbocito-national-tax') : localStorage.setItem('timbocito-national-tax',10); }
+    if(provinceTax) { localStorage.getItem('timbocito-province-tax') ? provinceTax.value=localStorage.getItem('timbocito-province-tax') : localStorage.removeItem('timbocito-province-tax'); }
     if(selectManualMode) { localStorage.getItem('manual-mode') ? selectManualMode.value=localStorage.getItem('manual-mode') : localStorage.removeItem('manual-mode'); }
     localStorage.getItem('metodo-de-pago') != "timbocito-cotizacion-tarjeta" ? localStorage.setItem('metodo-de-pago','timbocito-cotizacion-tarjeta') : "" ;
 }
@@ -114,7 +115,7 @@ function changePaymentMethodState(e){
     let value = e?.currentTarget?.value || e
     let tarjetaTax = JSON.parse(localStorage.getItem('timbocito-cotizacion-tarjeta')).taxAmount || 10 
     localStorage.setItem('metodo-de-pago', value)
-    localStorage.setItem('national-tax', tarjetaTax)
+    localStorage.setItem('timbocito-national-tax', tarjetaTax)
     if(nationalTax) nationalTax.value = tarjetaTax;
     window.location.reload();
 }
@@ -129,12 +130,12 @@ function changeManualModeState(){
 }
 
 function changeNationalTax(){
-    localStorage.setItem('national-tax',this.value);
+    localStorage.setItem('timbocito-national-tax',this.value);
     window.location.reload();
 }
 
 function changeProvinceTax(){
-    localStorage.setItem('province-tax',this.value);
+    localStorage.setItem('timbocito-province-tax',this.value);
     window.location.reload();
 }
 
@@ -147,7 +148,12 @@ function showMenu(e){
 
 function hideMenu(e){
     let shortcutBtn = document.querySelector(".timbocito-shortcut");
-    if(!menu.contains(e.target) && !timbocitoIcon.contains(e.target) && (!shortcutBtn || !shortcutBtn.contains(e.target))) {
+    let closeBtn = document.querySelector(".cerrar-menu-timbocito");
+
+    let isClickOutside = !menu.contains(e.target) && !timbocitoIcon.contains(e.target) && (!shortcutBtn || !shortcutBtn.contains(e.target));
+    let isClickCloseBtn = closeBtn && closeBtn.contains(e.target);
+
+    if(isClickOutside || isClickCloseBtn) {
         menu.classList.remove('enabled');
         menuBackground.classList.remove('menu-timbocito-background-enabled');
         document.body.classList.remove('menu-enabled');

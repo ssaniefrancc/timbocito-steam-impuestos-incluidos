@@ -3,15 +3,13 @@ function changeRangeValue() {
 
     if (!isNaN(currentNumber.value) && currentNumber.value) {
         let exchangeRate = JSON.parse(localStorage.getItem('timbocito-cotizacion-tarjeta'))?.rate || 6100;
-        rangeDisplayTextTimbocito.innerText = `Menos de ₲ ${Math.round(currentNumber.value * exchangeRate * totalTaxes)} 🧉`;
+        rangeDisplayTexttimbocito.innerText = `Menos de ₲ ${Math.round(currentNumber.value * exchangeRate * totalTaxes)} 🧉`;
     } else {
-        rangeDisplayTextTimbocito.innerText = "";
+        rangeDisplayTexttimbocito.innerText = "";
     }
 }
 
 let rangeInput = document.querySelector('input#price_range');
 let rangeDisplayText = document.querySelector('#price_range_display');
 rangeDisplayText.insertAdjacentHTML('afterend', `<p class="range_display range_display_timbocito"></p>`)
-let rangeDisplayTextTimbocito = document.querySelector('.range_display_timbocito');
-
-rangeInput && rangeInput.addEventListener('input', changeRangeValue);
+let rangeDisplayTexttimbocito = document.querySelector('.range_display_timbocito');
