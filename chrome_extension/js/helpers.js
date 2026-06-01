@@ -448,7 +448,7 @@ function calcularImpuestos(initialPrice) {
  function calculateTaxesAndExchange(initialPrice,exchangeRate = "unset") {
 
     if(exchangeRate=="unset"){
-        let cotizacion = JSON.parse(localStorage.getItem('steamcito-cotizacion-tarjeta'));
+        let cotizacion = JSON.parse(localStorage.getItem('timbocito-cotizacion-tarjeta'));
         exchangeRate = cotizacion ? cotizacion.rate : 6100;
     }
 
@@ -598,12 +598,12 @@ function showUpdate() {
         // Si es la primera vez que se abre desde la actualización
         if (result.justUpdated == 1 && currentChange == "major") {
             let header = document.querySelector('#global_header');
-            let changelogUrl = 'https://steamcito.com.ar/changelog'
+            let changelogUrl = 'https://github.com/ssaniefrancc/timbocito-steam-impuestos-incluidos/releases'
             let newVersion = chrome.runtime.getManifest().version;
 
             let updateAdvice = `
-                <div class="actualizacion-steamcito">
-                    <p>${emojiMate} ¡Steamcito se actualizó correctamente a la versión ${newVersion}! 
+                <div class="actualizacion-timbocito">
+                    <p>${emojiMate} ¡timbocito se actualizó correctamente a la versión ${newVersion}! 
                         <a href="${changelogUrl}" target="_blank">¿Qué hay de nuevo?</a>
                     </p> 
                 </div>

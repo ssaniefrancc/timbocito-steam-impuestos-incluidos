@@ -14,7 +14,6 @@ let standardTaxesDetail = [
 
 let impuestosGanancias = [];
 
-
 function setTransactionType(transactions){
     transactions.forEach(transaction => {
         transaction.classList.add('processed');

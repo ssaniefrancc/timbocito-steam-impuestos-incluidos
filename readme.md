@@ -60,7 +60,7 @@ Steamcito funciona en absolutamente todas las secciones donde se visualicen prec
 ***
 
 ## Instrucciones de instalación y uso
-1. Instalá Steamcito [en tu navegador favorito](https://www.steamcito.com.ar)
+1. Descargá la última versión desde la sección de [Releases de este repositorio](https://github.com/ssaniefrancc/timbocito-steam-impuestos-incluidos/releases)
 2. ¡Listo! Ya podés entrar a la tienda de Steam desde tu navegador y Steamcito estará funcionando.
 
 ***
@@ -68,7 +68,7 @@ Steamcito funciona en absolutamente todas las secciones donde se visualicen prec
 ## Reporte de Bugs y Sugerencias
 ¿Encontraste un bug o tenés un problema para usar la extensión?
 
-[Creá un issue](https://github.com/emilianog94/Steamcito-Precios-Steam-Argentina-Impuestos-Incluidos/issues)
+[Creá un issue en este repositorio](https://github.com/ssaniefrancc/timbocito-steam-impuestos-incluidos/issues)
 
 ![GitHub closed issues](https://img.shields.io/github/issues-closed/emilianog94/Steamcito-Precios-Steam-Argentina-Impuestos-Incluidos?color=green&label=issues%20solucionados)
 ![GitHub issues](https://img.shields.io/github/issues-raw/emilianog94/Steamcito-Precios-Steam-Argentina-Impuestos-Incluidos?color=yellow&label=issues%20actuales)
@@ -76,6 +76,6 @@ Steamcito funciona en absolutamente todas las secciones donde se visualicen prec
 ***
 
 ## Últimas Actualizaciones
-Conocé todos los detalles de las últimas actualizaciones de Steamcito
+Conocé todos los detalles de las últimas actualizaciones
 
-[Ver changelog](https://steamcito.com.ar/changelog)
+[Ver historial de cambios en GitHub](https://github.com/ssaniefrancc/timbocito-steam-impuestos-incluidos/releases)

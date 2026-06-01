@@ -1,20 +1,20 @@
 function createMenus(){
     let oldMenu = document.querySelector("#global_action_menu") || document.querySelector('#checkout_steam_logo span');
-    let steamcitoIcon = 
-    `<div class="ico-steamcito"> 
+    let timbocitoIcon = 
+    `<div class="ico-timbocito"> 
         🧉
     </div>`;
-    oldMenu && oldMenu.insertAdjacentHTML('afterend',steamcitoIcon);
-    steamcitoIcon = document.querySelector(".ico-steamcito");
-    steamcitoIcon && steamcitoIcon.addEventListener('click',showMenu);
+    oldMenu && oldMenu.insertAdjacentHTML('afterend',timbocitoIcon);
+    timbocitoIcon = document.querySelector(".ico-timbocito");
+    timbocitoIcon && timbocitoIcon.addEventListener('click',showMenu);
 
-    let steamcitoMenu = `
-    <div class="menu-steamcito-background"></div>
-    <div class="menu-steamcito">
+    let timbocitoMenu = `
+    <div class="menu-timbocito-background"></div>
+    <div class="menu-timbocito">
             <div class="internal-menu">
-                <span class="titulo">CONFIGURACIÓN DE STEAMCITO <br><span class="titulo__version"> Versión ${chrome.runtime.getManifest().version}</span></span>
+                <span class="titulo">CONFIGURACIÓN DE timbocito <br><span class="titulo__version"> Versión ${chrome.runtime.getManifest().version}</span></span>
 
-                <div class="opciones-avanzadas-steamcito">
+                <div class="opciones-avanzadas-timbocito">
 
                     <div class="grupo-opciones">
                         <h3> Opciones de Cotización e Impuestos </h3>
@@ -23,7 +23,7 @@ function createMenus(){
                             <div>
                                 <label for="metodo-de-pago-opciones">Tu método de pago</label>
                                 <select name="" id="metodo-de-pago-opciones">
-                                    <option value="steamcito-cotizacion-tarjeta">🧉 Tarjeta emitida en Paraguay</option>
+                                    <option value="timbocito-cotizacion-tarjeta">🧉 Tarjeta emitida en Paraguay</option>
                                 </select>
                             </div>
                             <small>Se aplicará el IVA del 10% sobre la cotización del dólar.</small>
@@ -75,11 +75,11 @@ function createMenus(){
 
                 </div>
 
-                <div class="ayuda-steamcito"> 
+                <div class="ayuda-timbocito"> 
                     <div class="grupo-opciones">
                         <h3>Enlaces Útiles</h3>
                         <a href="https://www.set.gov.py/" target="_blank">Información sobre IVA Digital 🇵🇾</a>
-                        <a href="https://github.com/ssaniefrancc/timbocito-steam-impuestos-incluidos/issues" target="_blank">Reportar un bug en la versión PY 🐛</a>
+                        <a href="https://github.com/ssaniefrancc/timbocito-steam-impuestos-incluidos" target="_blank">Ver código fuente en GitHub 💻</a>
                         <a href="https://partner.steamgames.com/pricing" target="_blank">Precios Regionales de Valve 📊</a>
                         ${getReviewLink()} 
                     </div>
@@ -89,23 +89,23 @@ function createMenus(){
 
     </div>
     `;
-    document.body.insertAdjacentHTML('beforeend',steamcitoMenu);
+    document.body.insertAdjacentHTML('beforeend',timbocitoMenu);
 }
 
 function getReviewLink(){
-    return `<a href="https://chrome.google.com/webstore/detail/steamcito-steam-con-impue/fcjljapncagfmfhdkccgnbkgdpbcefcj" target="_blank">Valorá Steamcito en Chrome Store ⭐</a> `;
+    return `<a href="https://chrome.google.com/webstore/detail/timbocito-steam-con-impue/fcjljapncagfmfhdkccgnbkgdpbcefcj" target="_blank">Valorá Timbocito en Chrome Store ⭐</a> `;
 }
 
 function setInitialLocalStates(){
     if(nationalTax) { localStorage.getItem('national-tax') && localStorage.getItem('national-tax') != '0' ? nationalTax.value = localStorage.getItem('national-tax') : localStorage.setItem('national-tax',10); }
     if(provinceTax) { localStorage.getItem('province-tax') ? provinceTax.value=localStorage.getItem('province-tax') : localStorage.removeItem('province-tax'); }
     if(selectManualMode) { localStorage.getItem('manual-mode') ? selectManualMode.value=localStorage.getItem('manual-mode') : localStorage.removeItem('manual-mode'); }
-    localStorage.getItem('metodo-de-pago') != "steamcito-cotizacion-tarjeta" ? localStorage.setItem('metodo-de-pago','steamcito-cotizacion-tarjeta') : "" ;
+    localStorage.getItem('metodo-de-pago') != "timbocito-cotizacion-tarjeta" ? localStorage.setItem('metodo-de-pago','timbocito-cotizacion-tarjeta') : "" ;
 }
 
 function changePaymentMethodState(e){
     let value = e?.currentTarget?.value || e
-    let tarjetaTax = JSON.parse(localStorage.getItem('steamcito-cotizacion-tarjeta')).taxAmount || 10 
+    let tarjetaTax = JSON.parse(localStorage.getItem('timbocito-cotizacion-tarjeta')).taxAmount || 10 
     localStorage.setItem('metodo-de-pago', value)
     localStorage.setItem('national-tax', tarjetaTax)
     if(nationalTax) nationalTax.value = tarjetaTax;
@@ -133,15 +133,15 @@ function changeProvinceTax(){
 
 function showMenu(e){
     menu.classList.add('enabled');
-    menuBackground.classList.add('menu-steamcito-background-enabled');
+    menuBackground.classList.add('menu-timbocito-background-enabled');
     document.body.classList.add('menu-enabled');
     document.addEventListener('click',hideMenu);
 }
 
 function hideMenu(e){
-    if(!menu.contains(e.target) && !steamcitoIcon.contains(e.target)) {
+    if(!menu.contains(e.target) && !timbocitoIcon.contains(e.target)) {
         menu.classList.remove('enabled');
-        menuBackground.classList.remove('menu-steamcito-background-enabled');
+        menuBackground.classList.remove('menu-timbocito-background-enabled');
         document.body.classList.remove('menu-enabled');
         document.removeEventListener('click',hideMenu);
     }
@@ -155,10 +155,10 @@ function setEmojis(){
 createMenus();
 
 // Selecciono los botones del menú y les asigno eventos
-const menu = document.querySelector(".menu-steamcito");
-const menuBackground = document.querySelector(".menu-steamcito-background");
+const menu = document.querySelector(".menu-timbocito");
+const menuBackground = document.querySelector(".menu-timbocito-background");
 
-const steamcitoIcon = document.querySelector(".ico-steamcito");
+const timbocitoIcon = document.querySelector(".ico-timbocito");
 let selectManualMode = document.querySelector("#modo-manual");
 let selectPaymentMethod = document.querySelector('#metodo-de-pago-opciones');
 
