@@ -82,7 +82,7 @@ Activa el **modo desarrollador** y arrastra el archivo `.crx` descargado anterio
 ---
 
 # 🌐 Instalación en Navegador
-> Tambien se puede instalar de la misma manera que la anterior forma pero esta en caso de que no les funcione por a o b motivo
+> Tambien se puede instalar de la misma manera que la anterior pero esta en caso de que no les funcione por a o b motivo
 ### 1. Descargar el código fuente
 
 Descarga la última versión del proyecto:
