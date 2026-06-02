@@ -241,30 +241,30 @@ const renderPriceIndicators = (appData, exchangeRate) => {
 
     return(`
         <p class="reason info">
-            Precio sugerido LATAM <br><span class="regional-meter-price-us">USD$ ${parseFloat(appData.recommendedArsPrice).toFixed(2)}</span>
+            Precio sugerido LATAM <br><span class="regional-meter-price-us regional-meter-price-toggle" data-usd="${parseFloat(appData.recommendedArsPrice).toFixed(2)}" data-pyg="${numberToString(taxesPY(appData.recommendedArsPrice))}" data-current="usd" style="cursor: pointer; transition: opacity 0.2s;">USD$ ${parseFloat(appData.recommendedArsPrice).toFixed(2)}</span>
             ${appData.discount != 0 
                 ?
-                `<span class="timbocito-strikethrough-price">USD$ ${parseFloat(appData.baseRecommendedArsPrice).toFixed(2)}</span>`
+                `<span class="timbocito-strikethrough-price regional-meter-price-toggle" data-usd="${parseFloat(appData.baseRecommendedArsPrice).toFixed(2)}" data-pyg="${numberToString(taxesPY(appData.baseRecommendedArsPrice))}" data-current="usd" style="cursor: pointer; transition: opacity 0.2s;">USD$ ${parseFloat(appData.baseRecommendedArsPrice).toFixed(2)}</span>`
                 :
                 ""
             }
         </p>
         <hr>
         <p class="reason info">
-            Precio actual en Paraguay<br><span class="regional-meter-price">${numberToString(taxesPY(appData.arsPrice))}</span>
+            Precio actual en Paraguay<br><span class="regional-meter-price regional-meter-price-toggle" data-usd="${appData.arsPrice.toFixed(2)}" data-pyg="${numberToString(taxesPY(appData.arsPrice))}" data-current="pyg" style="cursor: pointer; transition: opacity 0.2s;">${numberToString(taxesPY(appData.arsPrice))}</span>
             ${appData.discount != 0 
                 ?
-                `<span class="regional-meter-price timbocito-strikethrough-price">${numberToString(taxesPY(appData.baseArsPrice))}</span>`
+                `<span class="regional-meter-price timbocito-strikethrough-price regional-meter-price-toggle" data-usd="${appData.baseArsPrice.toFixed(2)}" data-pyg="${numberToString(taxesPY(appData.baseArsPrice))}" data-current="pyg" style="cursor: pointer; transition: opacity 0.2s;">${numberToString(taxesPY(appData.baseArsPrice))}</span>`
                 :
                 ""
             }
         </p> 
         <hr>
         <p class="reason info">
-            Precio actual en Estados Unidos<br><span class="regional-meter-price-us">USD$ ${appData.usdPrice} </span> 
+            Precio actual en Estados Unidos<br><span class="regional-meter-price-us regional-meter-price-toggle" data-usd="${appData.usdPrice.toFixed(2)}" data-pyg="${numberToString(taxesPY(appData.usdPrice))}" data-current="usd" style="cursor: pointer; transition: opacity 0.2s;">USD$ ${appData.usdPrice} </span> 
             ${appData.discount != 0 
                 ?
-                `<span class="timbocito-strikethrough-price">USD$ ${appData.baseUsdPrice} </span>`
+                `<span class="timbocito-strikethrough-price regional-meter-price-toggle" data-usd="${appData.baseUsdPrice.toFixed(2)}" data-pyg="${numberToString(taxesPY(appData.baseUsdPrice))}" data-current="usd" style="cursor: pointer; transition: opacity 0.2s;">USD$ ${appData.baseUsdPrice} </span>`
                 :
                 ""
             }
@@ -518,6 +518,27 @@ const renderRegionalIndicator = (appData, exchangeRate) => {
 
     `
     sidebar.insertAdjacentHTML('afterbegin', container);
+
+    let toggleablePrices = document.querySelectorAll('.regional-meter-price-toggle');
+    toggleablePrices.forEach(priceEl => {
+        priceEl.addEventListener('click', () => {
+            priceEl.style.opacity = 0;
+            setTimeout(() => {
+                if (priceEl.dataset.current === "usd") {
+                    priceEl.innerText = priceEl.dataset.pyg;
+                    priceEl.dataset.current = "pyg";
+                    priceEl.classList.remove("regional-meter-price-us");
+                    priceEl.classList.add("regional-meter-price");
+                } else {
+                    priceEl.innerText = "USD$ " + priceEl.dataset.usd;
+                    priceEl.dataset.current = "usd";
+                    priceEl.classList.remove("regional-meter-price");
+                    priceEl.classList.add("regional-meter-price-us");
+                }
+                priceEl.style.opacity = 1;
+            }, 150);
+        });
+    });
 
     if(appData.usdPrice == appData.arsPrice  && (appData.support_email || appData.support_url)){
 

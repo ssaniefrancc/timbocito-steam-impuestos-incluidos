@@ -40,10 +40,10 @@ function createMenus(){
                         <div class="opcion">
                             <div>
                                 <label for="national-tax">Impuestos nacionales</label>
-                                <div class="input-container">
-                                    <input id="national-tax" type="number" name="national-tax" disabled placeholder="10"/>
-                                    <span> % </span>
-                                </div>
+                                <select id="national-tax" name="national-tax">
+                                    <option value="10">10%</option>
+                                    <option value="0">0% (Sin IVA)</option>
+                                </select>
                             </div>
                             <small>IVA Servicios Digitales en Paraguay.</small>
                         </div>                    
@@ -101,11 +101,18 @@ function createMenus(){
 }
 
 function getReviewLink(){
-    return `<a href="https://chrome.google.com/webstore/detail/timbocito-steam-con-impue/fcjljapncagfmfhdkccgnbkgdpbcefcj" target="_blank">Valorá Timbocito en Chrome Store ⭐</a> `;
+    return `<a href="https://chrome.google.com/webstore/detail/timbocito-steam-con-impue/fcjljapncagfmfhdkccgnbkgdpbcefcj" target="_blank">Valorá Steamcito(original) en Chrome Store ⭐</a> `;
 }
 
 function setInitialLocalStates(){
-    if(nationalTax) { localStorage.getItem('timbocito-national-tax') && localStorage.getItem('timbocito-national-tax') != '0' ? nationalTax.value = localStorage.getItem('timbocito-national-tax') : localStorage.setItem('timbocito-national-tax',10); }
+    if(nationalTax) { 
+        if (localStorage.getItem('timbocito-national-tax') !== null) {
+            nationalTax.value = localStorage.getItem('timbocito-national-tax');
+        } else {
+            localStorage.setItem('timbocito-national-tax', 10);
+            nationalTax.value = 10;
+        }
+    }
     if(provinceTax) { localStorage.getItem('timbocito-province-tax') ? provinceTax.value=localStorage.getItem('timbocito-province-tax') : localStorage.removeItem('timbocito-province-tax'); }
     if(selectManualMode) { localStorage.getItem('manual-mode') ? selectManualMode.value=localStorage.getItem('manual-mode') : localStorage.removeItem('manual-mode'); }
     localStorage.getItem('metodo-de-pago') != "timbocito-cotizacion-tarjeta" ? localStorage.setItem('metodo-de-pago','timbocito-cotizacion-tarjeta') : "" ;

@@ -346,7 +346,7 @@ async function getUsdExchangeRate(){
             
             if(data.result === "success" && data.rates.PYG){
                 const pygRate = data.rates.PYG;
-                const updateDate = new Date(data.time_last_update_utc).toLocaleString("es-PY");
+                const updateDate = new Date().toLocaleString("es-PY");
 
                 const exchangeRateJSON = {
                     rate : pygRate,

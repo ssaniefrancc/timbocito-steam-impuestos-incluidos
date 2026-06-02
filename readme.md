@@ -2,33 +2,31 @@
 
 # 🇵🇾 Timbocito Paraguay – Precios en Guaraníes para Steam
 
-Timbocito Paraguay es un **fork de Steamcito**, adaptado específicamente para usuarios de Paraguay.
+**Timbocito Paraguay** es un fork de **Steamcito**, adaptado específicamente para usuarios de Paraguay.
 
-La extensión convierte automáticamente los precios de Steam desde USD a **Guaraníes (₲)** e incluye el **IVA del 10% aplicado a servicios digitales**, permitiendo visualizar el costo real de los juegos de forma rápida y transparente.
+La extensión convierte automáticamente los precios de Steam desde **USD a Guaraníes (₲)** e incluye el **IVA del 10% aplicado a servicios digitales**, permitiendo visualizar el costo real de los juegos de forma rápida y transparente.
 
-> Actualmente no está publicado en Chrome Web Store, pero voy a subirlo proximamente.
+> 🚧 Actualmente no está publicado en Chrome Web Store, pero será lanzado próximamente.
 
 ---
 
 ## 📚 Tabla de Contenidos
 
-* [Acerca de Timbocito Paraguay](#-acerca-de-timbocito-paraguay)
-* [Créditos](#-créditos)
-* [Funcionalidades](#-funcionalidades)
-* [Instalación en Navegador](#-instalación-en-navegador)
-* [Instalación en Steam](#-instalación-en-steam)
+* [📖 Acerca de Timbocito Paraguay](#-acerca-de-timbocito-paraguay)
+* [✨ Funcionalidades](#-funcionalidades)
+* [🎮 Instalación en Steam](#-instalación-en-steam)
+* [🌐 Instalación en Navegador](#-instalación-en-navegador)
+* [🧉 Cómo utilizar](#-cómo-utilizar)
+* [🤝 Créditos](#-créditos)
+* [🚧 Estado del Proyecto](#-estado-del-proyecto)
 
 ---
 
-## 🤝 Créditos
+# 📖 Acerca de Timbocito Paraguay
 
-Este proyecto está basado en **Steamcito**, desarrollado originalmente por Emiliano G.
+Timbocito Paraguay adapta el funcionamiento de Steamcito al mercado paraguayo, realizando conversiones automáticas de precios e incorporando los impuestos correspondientes para mostrar el costo final real de los juegos en Steam.
 
-Timbocito Paraguay adapta su funcionamiento y cálculos para ajustarse al mercado y la divisa paraguaya.
-
-Proyecto original:
-
-https://github.com/emilianog94/Steamcito-Precios-Steam-Argentina-Impuestos-Incluidos
+El objetivo es ofrecer una experiencia más clara, transparente y cómoda para los usuarios paraguayos.
 
 ---
 
@@ -47,61 +45,151 @@ https://github.com/emilianog94/Steamcito-Precios-Steam-Argentina-Impuestos-Inclu
 
 ---
 
+## 🤝 Créditos
+
+Este proyecto está basado en **Steamcito**, desarrollado originalmente por **Emiliano G.**
+
+Timbocito Paraguay adapta su funcionamiento y cálculos para ajustarse al mercado y la divisa paraguaya.
+
+🔗 Proyecto original:
+
+https://github.com/emilianog94/Steamcito-Precios-Steam-Argentina-Impuestos-Incluidos
+
+---
+
 # 🎮 Instalación en Steam
 
-### 1. Descargar el archivo `.crx`
+## 1. Descargar el archivo `.crx`
 
 Descarga la última versión:
 
 https://github.com/ssaniefrancc/timbocito-steam-impuestos-incluidos/releases/download/1.0.0/Timbocito.-.Steam.Paraguay.crx
 
-### 2. Abrir Steam en una pestaña del navegador
+---
+
+## 2. Abrir Steam en una pestaña del navegador
 
 En la tienda de Steam, haz clic derecho sobre el banner principal y selecciona:
 
 **"Open link in new tab / Abrir en una nueva pestaña"**
 
-![Paso 4](misc/steam_banner.gif)
+![Paso 1](misc/steam_banner.gif)
 
-### 3. Abrir extensiones de Chrome
+---
+
+## 3. Abrir extensiones de Chrome
 
 En la barra de búsqueda escribe:
 
 `chrome://extensions`
 
-y presiona Enter.
+y presiona **Enter**.
 
-![Paso 5](misc/steam_browse.gif)
+![Paso 2](misc/steam_browse.gif)
 
-### 4. Instalar la extensión
+---
 
-Activa el **modo desarrollador** y arrastra el archivo `.crx` descargado anteriormente.
+## 4. Instalar la extensión
 
-![Paso 6](misc/steam_load.gif)
+Activa el **Modo Desarrollador** y arrastra el archivo `.crx` descargado anteriormente.
+
+![Paso 3](misc/steam_load.gif)
 
 ---
 
 # 🌐 Instalación en Navegador
-> Tambien se puede instalar de la misma manera que la anterior pero esta en caso de que no les funcione por a o b motivo
-### 1. Descargar el código fuente
+
+> También puede instalarse mediante código fuente, útil en caso de que el archivo `.crx` no funcione por algún motivo.
+
+## 1. Descargar el código fuente
 
 Descarga la última versión del proyecto:
 
 https://github.com/ssaniefrancc/timbocito-steam-impuestos-incluidos/archive/refs/tags/1.0.0.zip
 
-### 2. Abrir extensiones del navegador
+---
 
-![Paso 1](misc/browser_search.gif)
+## 2. Abrir extensiones del navegador
 
-### 3. Activar el modo desarrollador
+![Paso 4](misc/browser_search.gif)
 
-![Paso 2](misc/developer_mode.gif)
+---
 
-### 4. Cargar la extensión
+## 3. Activar el Modo Desarrollador
 
-Haz clic en **"Load unpacked / Cargar extensión sin empaquetar"**, selecciona la carpeta `chrome_extension` del código fuente descargado y presiona **Aceptar**.
+![Paso 5](misc/developer_mode.gif)
 
-![Paso 3](misc/load_extension.gif)
+---
+
+## 4. Cargar la extensión
+
+Haz clic en:
+
+**"Load unpacked / Cargar extensión sin empaquetar"**
+
+Luego selecciona la carpeta:
+
+`chrome_extension`
+
+del código fuente descargado y presiona **Aceptar**.
+
+![Paso 6](misc/load_extension.gif)
+
+---
+
+# 🧉 Cómo utilizar
+
+Timbocito funciona de manera similar a Steamcito.
+
+Puedes hacer clic sobre los precios para alternar entre **USD y Guaraníes**.
+
+![Paso 7](misc/clickdivisa.gif)
+
+---
+
+Al ingresar a la página de un juego, aparecerá el botón del **🧉**, desde donde podrás abrir el menú y configurar distintas opciones.
+
+![Paso 8](misc/clickmenu.gif)
+
+![Paso 9](misc/howtouse1.png)
+
+---
+
+### 💸 Mostrar precio con o sin IVA
+
+Puedes alternar entre visualizar el precio **con IVA o sin IVA**, según tu preferencia.
+
+![Paso 10](misc/howtouse2.png)
+
+---
+
+### 🏦 Agregar recargos extra del banco
+
+Si tu banco aplica una comisión adicional por transacción internacional, puedes agregar ese porcentaje en el campo de **Recargos Extras**.
+
+![Paso 11](misc/howtouse3.png)
+
+---
+
+### 💱 Elegir divisa predeterminada
+
+Puedes seleccionar la divisa que deseas ver por defecto:
+
+* USD
+* PYG
+* 🧠 **Modo Inteligente (Recomendado)**
+
+Este último mostrará el precio según tu saldo disponible si estás conectado a Steam.
+
+![Paso 12](misc/howtouse4.png)
+
+---
+
+### 🛒 Visualización en el carrito
+
+Al agregar juegos al carrito, se mostrará el **total en Guaraníes con impuestos incluidos**, según la configuración seleccionada.
+
+![Paso 13](misc/howtouse5.png)
 
 ---
 
