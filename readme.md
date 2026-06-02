@@ -2,6 +2,10 @@
 
 # 🇵🇾 Timbocito Paraguay – Precios en Guaraníes para Steam
 
+![GitHub release](https://img.shields.io/github/v/release/ssaniefrancc/timbocito-steam-impuestos-incluidos?label=Version\&style=for-the-badge)
+![GitHub downloads](https://img.shields.io/github/downloads/ssaniefrancc/timbocito-steam-impuestos-incluidos/total?label=Descargas\&style=for-the-badge)
+![GitHub stars](https://img.shields.io/github/stars/ssaniefrancc/timbocito-steam-impuestos-incluidos?style=for-the-badge)
+
 **Timbocito Paraguay** es un fork de **Steamcito**, adaptado específicamente para usuarios de Paraguay.
 
 La extensión convierte automáticamente los precios de Steam desde **USD a Guaraníes (₲)** e incluye el **IVA del 10% aplicado a servicios digitales**, permitiendo visualizar el costo real de los juegos de forma rápida y transparente.
@@ -63,7 +67,7 @@ https://github.com/emilianog94/Steamcito-Precios-Steam-Argentina-Impuestos-Inclu
 
 Descarga la última versión:
 
-https://github.com/ssaniefrancc/timbocito-steam-impuestos-incluidos/releases/download/1.0.0/Timbocito.-.Steam.Paraguay.crx
+https://github.com/ssaniefrancc/timbocito-steam-impuestos-incluidos/releases/latest/download/Timbocito.-.Steam.Paraguay.crx
 
 ---
 
@@ -105,7 +109,7 @@ Activa el **Modo Desarrollador** y arrastra el archivo `.crx` descargado anterio
 
 Descarga la última versión del proyecto:
 
-https://github.com/ssaniefrancc/timbocito-steam-impuestos-incluidos/archive/refs/tags/1.0.0.zip
+https://github.com/ssaniefrancc/timbocito-steam-impuestos-incluidos/archive/refs/heads/main.zip
 
 ---
 
