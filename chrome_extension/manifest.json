@@ -1,6 +1,6 @@
  {
  	"name": "Timbocito Paraguay: Precios en Guaraníes",
- 	"version": "1.0.1",
+ 	"version": "1.0.2",
  	"description": "Muestra los precios de Steam en Guaraníes (PYG) con el IVA del 10% incluido",
  	"manifest_version": 3,
  	"background": {
