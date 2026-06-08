@@ -586,9 +586,6 @@ function steamizar(contenedor, emoji = true) {
 }
 
 
-function renderArgentinaShortcut(){
-    return; // Deshabilitado para Paraguay
-}
 
 const currentChange = "patch"; // patch | minor | major
 

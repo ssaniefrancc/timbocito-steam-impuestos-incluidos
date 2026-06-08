@@ -97,13 +97,19 @@ function calculateTotals(transaction){
 getTransactions();
 
 MutationObserver = window.MutationObserver || window.WebKitMutationObserver;
-const transactionObserver = new MutationObserver(function(mutations, observer) {
-    getTransactions();
+
+let historyDebounceTimer = null;
+const transactionObserver = new MutationObserver(function(mutations) {
+    const hasNewNodes = mutations.some(m => m.addedNodes.length > 0);
+    if (hasNewNodes) {
+        clearTimeout(historyDebounceTimer);
+        historyDebounceTimer = setTimeout(getTransactions, 300);
+    }
 });
 
 transactionObserver.observe(document, {
   subtree: true,
-  attributes: true
+  childList: true
 });
 
 // Función deshabilitada.

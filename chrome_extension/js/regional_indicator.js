@@ -192,6 +192,31 @@ const getAppPricing = async (appInitialData) => {
 };
 
 
+// Handler compartido para el botón de actualización de cotización.
+// Extraído para evitar duplicación entre renderExchangeIndicator y renderRegionalIndicator.
+function attachUpdateRateHandler(btn) {
+    if (!btn || btn.dataset.listenerAttached) return;
+    btn.addEventListener('click', async () => {
+        if (window.__timbocitoUpdatingRate) return;
+        window.__timbocitoUpdatingRate = true;
+        btn.disabled = true;
+        const original = btn.innerText;
+        btn.innerText = 'Actualizando...';
+        try {
+            await getUsdExchangeRate(true);
+            await getExchangeRate();
+            try { await getAppPricing(getAppData(regionalUrl)); } catch(e) {}
+            try { getPrices('standard'); } catch(e) {}
+        } catch(e) {
+            console.error('Error actualizando cotización', e);
+        }
+        btn.innerText = original;
+        btn.disabled = false;
+        window.__timbocitoUpdatingRate = false;
+    });
+    btn.dataset.listenerAttached = '1';
+}
+
 const renderExchangeIndicator = (exchangeRate,exchangeRateDate,tarjetaTax) => {
     if (indicatorStyle == "barra-oculta") {
         return;
@@ -247,30 +272,8 @@ const renderExchangeIndicator = (exchangeRate,exchangeRateDate,tarjetaTax) => {
     let dolarTarjetaItem = document.querySelector('.dolar_tarjeta');
     dolarTarjetaItem && dolarTarjetaItem.addEventListener('click', () => {changePaymentMethodState('timbocito-cotizacion-tarjeta');window.location.reload()} )
 
-    // Listener para el botón de actualización dentro de la sección de cotización
-    let cotBtn = sidebar.querySelector('.timbocito-update-rate-btn');
-    if(cotBtn && !cotBtn.dataset.listenerAttached){
-        cotBtn.addEventListener('click', async () => {
-            if(window.__timbocitoUpdatingRate) return;
-            window.__timbocitoUpdatingRate = true;
-            cotBtn.disabled = true;
-            const original = cotBtn.innerText;
-            cotBtn.innerText = 'Actualizando...';
-            try{
-                await getUsdExchangeRate(true);
-                await getExchangeRate();
-                try{ await getAppPricing(getAppData(regionalUrl)); } catch(e){}
-                // Reprocesar precios visibles en la página para reflejar la nueva cotización
-                try{ getPrices('standard'); } catch(e){}
-            } catch(e){
-                console.error('Error actualizando cotización desde sección cotización', e);
-            }
-            cotBtn.innerText = original;
-            cotBtn.disabled = false;
-            window.__timbocitoUpdatingRate = false;
-        });
-        cotBtn.dataset.listenerAttached = '1';
-    }
+    // Usar handler compartido para el botón de actualización
+    attachUpdateRateHandler(sidebar.querySelector('.timbocito-update-rate-btn'));
 }
 
 
@@ -568,25 +571,8 @@ const renderRegionalIndicator = (appData, exchangeRate) => {
     // Solicitar al módulo de cotización que inserte/actualice su bloque debajo del regional
     try{ getExchangeRate(); } catch(e){}
 
-    // Asegurar listener en el botón de actualización insertado junto a la cotización
-    let newCotBtn = sidebar.querySelector('.timbocito-update-rate-btn');
-    if(newCotBtn && !newCotBtn.dataset.listenerAttached){
-        newCotBtn.addEventListener('click', async () => {
-            newCotBtn.disabled = true;
-            const original = newCotBtn.innerText;
-            newCotBtn.innerText = 'Actualizando...';
-            try{
-                await getUsdExchangeRate(true);
-                await getExchangeRate();
-                try{ await getAppPricing(getAppData(regionalUrl)); } catch(e){}
-            } catch(e){
-                console.error('Error actualizando cotización desde sección regional', e);
-            }
-            newCotBtn.innerText = original;
-            newCotBtn.disabled = false;
-        });
-        newCotBtn.dataset.listenerAttached = '1';
-    }
+    // Usar handler compartido para el botón de actualización
+    attachUpdateRateHandler(sidebar.querySelector('.timbocito-update-rate-btn'));
 
     let toggleablePrices = document.querySelectorAll('.regional-meter-price-toggle');
     toggleablePrices.forEach(priceEl => {

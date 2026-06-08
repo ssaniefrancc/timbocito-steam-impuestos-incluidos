@@ -1,10 +1,21 @@
 const walletBalance = getBalance();
 const totalTaxes = getTotalTaxes();
 
+// Procesa elementos en batches para no congelar la UI
+function processBatch(elements, index, batchSize) {
+    const end = Math.min(index + batchSize, elements.length);
+    for (let i = index; i < end; i++) {
+        setArgentinaPrice(elements[i]);
+    }
+    if (end < elements.length) {
+        requestAnimationFrame(() => processBatch(elements, end, batchSize));
+    }
+}
+
 function getPrices(type){
     let prices;
     if (type == "standard"){
-        prices = document.querySelectorAll(priceContainers);
+        prices = Array.from(document.querySelectorAll(priceContainers));
         // Fix específico para obtener las DLCs sin descuento y que estas no hagan overlap con las DLCs con descuento
         let standardDlcPrices = document.querySelectorAll(`.game_area_dlc_price:not([${attributeName}])`);
         standardDlcPrices.forEach(dlcPrice => { 
@@ -12,9 +23,8 @@ function getPrices(type){
                 setArgentinaPrice(dlcPrice);
             }
         });
-        prices.forEach(price => {
-            setArgentinaPrice(price)
-        } );
+        // Procesar en batches de 20 para no bloquear el hilo principal
+        processBatch(prices, 0, 20);
     } else if(type == "cart"){
         setTimeout(() => {
             return renderCart();
@@ -56,7 +66,6 @@ function getNeededWalletAmount(currentWalletAmount){
 }
 
 function setPaymentMethodName(){
-    let paymentMethod = localStorage.getItem('metodo-de-pago') || "timbocito-cotizacion-tarjeta";
     return "Tarjeta";
 }
 
@@ -204,7 +213,12 @@ function renderPrices(price){
 
     let argentinaPrice = numberToString(price.dataset.argentinaPrice);
     let originalPrice = numberToStringUsd(price.dataset.originalPrice);
-    price.addEventListener('click',showSecondaryPrice); 
+
+    // Evitar agregar listeners duplicados
+    if(!price.dataset.listenerAttached){
+        price.addEventListener('click',showSecondaryPrice); 
+        price.dataset.listenerAttached = '1';
+    }
     price.style.cursor="pointer";
 
     // Fix para contenedores que intercalan un BR entre precio original y precio en oferta 
@@ -243,16 +257,20 @@ function renderPrices(price){
     }
 
     // Fix para reprocesar bundles dinámicos cuyo precio se carga de manera asíncrona
-    setTimeout(function(){
-        // Usamos '₲' (Guaraní) y 'USD$' porque este fork es para Paraguay
-        if(price.classList.contains('argentina') && !price.innerText.includes("₲") &&  (price.closest('.dynamic_bundle_description') || price.closest('div[data-bundlediscount]'))){
-            setArgentinaPrice(price);
-        }
+    // Protección contra ciclo recursivo: solo intentar una vez por elemento
+    if(!price.dataset.bundleRetried){
+        price.dataset.bundleRetried = '1';
+        setTimeout(function(){
+            // Usamos '₲' (Guaraní) y 'USD$' porque este fork es para Paraguay
+            if(price.classList.contains('argentina') && !price.innerText.includes("₲") &&  (price.closest('.dynamic_bundle_description') || price.closest('div[data-bundlediscount]'))){
+                setArgentinaPrice(price);
+            }
 
-        if(price.classList.contains('original') && !price.innerText.includes("USD$") && price.closest('.dynamic_bundle_description')){
-            setArgentinaPrice(price);
-        }
-    },1500)
+            if(price.classList.contains('original') && !price.innerText.includes("USD$") && price.closest('.dynamic_bundle_description')){
+                setArgentinaPrice(price);
+            }
+        },1500)
+    }
 
 }
 
@@ -300,58 +318,7 @@ function evaluateDate(localStorageItem, seconds = 900){
     return true;
 }
 
-async function processExchangeRate(type,localStorageItemKey,defaultValue){
-    try{
-        let exchangeRateResponse = await fetch('/curator/45349538/ajaxgetfilteredrecommendations/?query&start=0&count=10')
-        let exchangeRateJson = await exchangeRateResponse.json();
-        if(exchangeRateJson.results_html){
-            let sanitizedDOM = exchangeRateJson.results_html.replace(/[\r\n\t]/g, '');
-            let steamGeneratedDOM = new DOMParser().parseFromString(sanitizedDOM, 'text/html').body.childNodes[0]
-            let gamesElements = steamGeneratedDOM.querySelectorAll('div.recommendation');
-            if(gamesElements.length){
-
-                let element = Array.from(gamesElements).find( (gameElement,index) => {
-                    let domElement = gamesElements[index].querySelector('.recommendation_desc');
-                    let rateData = domElement.innerText.split('|'); // RateData String Format: Rate|Tax|Name|Timestamp
-                    return rateData[2].includes(type)
-                })
-
-                element = element.querySelector('.recommendation_desc');
-                let rateData = element.innerText.split('|'); // RateData String Format: Rate|Tax|Name|Timestamp
-
-                const taxAmount = rateData[1]
-
-                const formattedDate = new Date(parseInt(rateData[3])).toLocaleString("es-AR", {
-                day: "2-digit", month: "2-digit", year: "numeric", hour: "2-digit", minute: "2-digit", hour12: false 
-                }).replace(",", " -");
-
-
-                let exchangeRateJSON = {
-                    rate : parseFloat(rateData[0]),
-                    taxAmount: taxAmount,
-                    rateDateProvided: formattedDate,
-                    date: Date.now()
-                }
-
-                localStorage.setItem(localStorageItemKey, JSON.stringify(exchangeRateJSON));
-            }
-        }
-    } 
-    catch(err){
-        console.log(err);
-        if(!localStorage.getItem(localStorageItemKey)){
-            localStorage.setItem(localStorageItemKey, JSON.stringify({
-                rate: defaultValue,
-                rateDateProvided:"11/06/2024 - 16:00",
-                date:Date.now()
-            }));
-        } else{
-            let currentRateValue = JSON.parse(localStorage.getItem(localStorageItemKey));
-            currentRateValue.date = Date.now();
-            localStorage.setItem(localStorageItemKey,JSON.stringify(currentRateValue));                
-        }
-    }
-}
+// processExchangeRate() — Eliminada: función legacy del curator original que ya no se usa en este fork.
 
 
 async function getUsdExchangeRate(force = false){
@@ -398,36 +365,7 @@ async function getUsdExchangeRate(force = false){
 }
 
 
-async function getBnaExchangeRate(){ // Legacy function: not used!
-
-    let shouldGetNewRate = evaluateDate('timbocito-cotizacion-bna');
-
-    if(shouldGetNewRate){
-        try{
-            let exchangeRateResponse = await fetch('https://mercados.ambito.com/dolarnacion/variacion');
-            let exchangeRateJson = await exchangeRateResponse.json();
-            let exchangeRate = exchangeRateJson.venta;
-            let exchangeRateDate = exchangeRateJson.fecha
-            exchangeRate = parseFloat(exchangeRate.replace(',','.'));
-            
-            let exchangeRateJSON = {
-                rate : exchangeRate,
-                rateDateProvided: exchangeRateDate,
-                date: Date.now()
-            }
-
-    
-        localStorage.setItem('timbocito-cotizacion-bna', JSON.stringify(exchangeRateJSON));
-        }
-        catch(err){
-            localStorage.setItem('timbocito-cotizacion-bna', JSON.stringify({
-                rate:841.25,
-                rateDateProvided:"23/01/2024 - 15:57",
-                date:Date.now()
-            }));
-        }
-    }
-}
+// getBnaExchangeRate() — Eliminada: función legacy del dólar argentino BNA que no se usa en este fork.
 
 
 let currentDate = new Date();
@@ -480,14 +418,6 @@ function findPricesInSearch() {
 
 getOwnedGames();
 
-// Lógica de ejecución según la página
-const url = window.location.href;
-if(url.includes("store.steampowered.com/cart") || url.includes("store.steampowered.com/checkout")){
-    getPrices("cart");
-} else if(url.includes("store.steampowered.com/search")){
-    getPrices("search");
-} else if(url.includes("store.steampowered.com/wishlist")){
-    getPrices("wishlist");
-} else {
-    getPrices("standard");
-}
+// La ejecución de getPrices() se delega a los triggers específicos de cada página
+// (trigger.js, cart_trigger.js, wishlist_trigger.js, search.js)
+// para evitar doble ejecución al cargar.
