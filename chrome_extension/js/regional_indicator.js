@@ -62,42 +62,48 @@ const getExchangeRate = async () => {
 }
 
 const getAppPricing = async (appInitialData) => {
-    console.log("timbocito debug: Iniciando getAppPricing con datos:", appInitialData);
     await getUsdExchangeRate();
     const { type, id } = appInitialData;
-    let appEndpoint = `/api/appdetails?appids=${id}`;
-    let subEndpoint = `/api/packagedetails?packageids=${id}`
 
     // Si no estamos en una página de producto válida, abortamos
-    if(!id) {
-        console.log("timbocito debug: No hay appid/subid válido, saliendo.");
-        return;
+    if(!id) return;
+
+    let appEndpoint = `/api/appdetails?appids=${id}`;
+    let subEndpoint = `/api/packagedetails?packageids=${id}`;
+    let sidebar = document.querySelector('.rightcol.game_meta_data');
+    let exchangeRate = JSON.parse(localStorage.getItem('timbocito-cotizacion-tarjeta'))?.rate;
+
+    // Intentar usar caché por appId (válido 24h — los precios de Steam no cambian seguido)
+    const cacheKey = `timbocito-app-${type}-${id}`;
+    const cachedRaw = localStorage.getItem(cacheKey);
+    if (cachedRaw) {
+        try {
+            const cached = JSON.parse(cachedRaw);
+            const ageSeconds = (Date.now() - cached.date) / 1000;
+            if (ageSeconds < 86400 && cached.appData) {
+                if (sidebar && exchangeRate) {
+                    renderRegionalIndicator(cached.appData, exchangeRate);
+                }
+                return cached.appData;
+            }
+        } catch(e) {
+            localStorage.removeItem(cacheKey);
+        }
     }
 
-    let sidebar = document.querySelector('.rightcol.game_meta_data');
-    console.log("timbocito debug: Sidebar encontrada?", sidebar !== null);
-
     try {
-        console.log(`timbocito debug: Realizando fetch para EE.UU. y Paraguay para ID: ${id}`);
-        const appIdFetch = await fetch(`${type == "app" ? `${appEndpoint}&cc=us` : `${subEndpoint}&cc=us`}`, { credentials: 'omit' })
-
-        // Usamos cc=py para traer precios de Paraguay
-        const appIdFetchArg = await fetch(`${type == "app" ? `${appEndpoint}&cc=py` : `${subEndpoint}&cc=py`}`, { credentials: 'omit' })
-
-        let exchangeRate = JSON.parse(localStorage.getItem('timbocito-cotizacion-tarjeta'))?.rate;
-        console.log("timbocito debug: Cotización leída:", exchangeRate);
+        // Ambos fetches en paralelo para reducir el tiempo de espera a la mitad
+        const [appIdFetch, appIdFetchArg] = await Promise.all([
+            fetch(`${type == "app" ? `${appEndpoint}&cc=us` : `${subEndpoint}&cc=us`}`, { credentials: 'omit' }),
+            fetch(`${type == "app" ? `${appEndpoint}&cc=py` : `${subEndpoint}&cc=py`}`, { credentials: 'omit' })
+        ]);
 
         let appIdResponse = await appIdFetch.json();
         let appIdArgResponse = await appIdFetchArg.json();
-        
-        console.log("timbocito debug: Respuesta EE.UU.:", appIdResponse);
-        console.log("timbocito debug: Respuesta Paraguay:", appIdArgResponse);
 
         if (appIdResponse[id] && appIdArgResponse[id]) {
-            console.log(`timbocito debug: success EE.UU: ${appIdResponse[id].success}, success Paraguay: ${appIdArgResponse[id].success}`);
             if (appIdResponse[id].success && appIdArgResponse[id].success) {
                 if (appIdResponse[id].data.is_free || !appIdResponse[id].data[type == "sub" ? "price" : "price_overview"]) {
-                    console.log("timbocito debug: El juego es gratis o no tiene precio, saliendo.");
                     return;
                 }
                 appIdResponse = appIdResponse[id].data;
@@ -118,16 +124,14 @@ const getAppPricing = async (appInitialData) => {
                     recommendedArsPrice: undefined,
                     recommendedLatamPrice: undefined,
                     regionalStatus: undefined
-                }
-                console.log("timbocito debug: Datos procesados de la app:", appData);
+                };
 
                 if(appData.publisher != "El publisher" && appData.support_email && !appData.support_email.includes('@')){
-                    !appData.support_url ? appData.support_url = appData.support_email : ""
+                    !appData.support_url ? appData.support_url = appData.support_email : "";
                     appData.support_email = "";
                 }
 
                 const nearestOption = regionalPricingOptionsLatam.reduce((prev, curr) => Math.abs(curr - appData.baseUsdPrice) < Math.abs(prev - appData.baseUsdPrice) ? curr : prev);
-                console.log("timbocito debug: Opción de precio más cercana:", nearestOption);
 
                 const baseRecommendedArsPrice = regionalPricingChartLatam
                     .filter(item => item.usdPrice == nearestOption)
@@ -136,7 +140,6 @@ const getAppPricing = async (appInitialData) => {
                 const recommendedArsPrice = regionalPricingChartLatam
                     .filter(item => item.usdPrice == nearestOption)
                     .map(item => item.argPrice)[0] * (100 - appData.discount) / 100;
-                    
 
                 appData.recommendedArsPrice = recommendedArsPrice;
                 appData.baseRecommendedArsPrice = baseRecommendedArsPrice;
@@ -146,14 +149,12 @@ const getAppPricing = async (appInitialData) => {
                     .map(item => item.argPrice)[0] * (100 - appData.discount) / 100;
                 appData.pppPrice = pppPrice;
 
-                // Tiene el mismo precio que en Estados Unidos
                 if (appData.arsPrice == appData.usdPrice) {
                     appData.regionalDifference = 0;
-                    appData.regionalStatus = "expensive"
+                    appData.regionalStatus = "expensive";
                 }
 
-                // Está más caro que lo esperado
-                if (appData.arsPrice > appData.recommendedArsPrice && appData.arsPrice != appData.usdPrice ) {
+                if (appData.arsPrice > appData.recommendedArsPrice && appData.arsPrice != appData.usdPrice) {
                     appData.regionalDifference = Math.round((parseFloat((appData.arsPrice - appData.recommendedArsPrice)) / appData.recommendedArsPrice) * 100);
                     appData.regionalDifference <= 25 ? appData.regionalStatus = "fair" : appData.regionalStatus = "semifair";
                 }
@@ -166,7 +167,6 @@ const getAppPricing = async (appInitialData) => {
                     appData.regionalDifference = 0;
                 }
 
-                // Excellent: precio dentro del 20% del PPP
                 if (appData.pppPrice && appData.regionalStatus !== "expensive") {
                     const pppDifference = Math.abs(appData.arsPrice - appData.pppPrice) / appData.pppPrice;
                     if (pppDifference <= 0.20) {
@@ -175,23 +175,22 @@ const getAppPricing = async (appInitialData) => {
                     }
                 }
 
-                console.log("timbocito debug: Estado regional calculado:", appData.regionalStatus);
+                // Guardar en caché para que la próxima visita no haga fetch
+                try {
+                    localStorage.setItem(cacheKey, JSON.stringify({ appData, date: Date.now() }));
+                } catch(e) { /* localStorage lleno, ignorar */ }
 
-                if(sidebar){
-                    console.log("timbocito debug: Renderizando barra regional...");
+                if(sidebar) {
                     renderRegionalIndicator(appData, exchangeRate);
                 }
                 return appData;
-            } else {
-                console.log("timbocito debug: success de alguna respuesta es falso");
             }
-        } else {
-            console.log(`timbocito debug: appIdResponse[${id}] o appIdArgResponse[${id}] es nulo/indefinido`);
         }
     } catch(err) {
-        console.error("timbocito debug: Error fatal en getAppPricing:", err);
+        console.error("timbocito PY: Error en getAppPricing:", err);
     }
-}
+};
+
 
 const renderExchangeIndicator = (exchangeRate,exchangeRateDate,tarjetaTax) => {
     if (indicatorStyle == "barra-oculta") {
@@ -201,6 +200,15 @@ const renderExchangeIndicator = (exchangeRate,exchangeRateDate,tarjetaTax) => {
     let sidebar = document.querySelector('.rightcol.game_meta_data');
 
     if(!sidebar) return;
+
+    // Eliminar cualquier bloque de cotización previo (evita duplicados)
+    let prevHeadings = sidebar.querySelectorAll('.heading.heading_steamcito_3.heading_timbocito_3');
+    prevHeadings.forEach(h => {
+        if(h.innerText && h.innerText.trim().includes('Cotización del dólar')) h.remove();
+    });
+    let prevCot = sidebar.querySelectorAll('.recommendation_reasons.cotizacion-wrapper');
+    prevCot.forEach(c => c.remove());
+    console.debug('timbocito: removed previous cotizacion blocks, inserting new one');
 
     let staticExchangeRate = exchangeRate;
 
@@ -226,13 +234,43 @@ const renderExchangeIndicator = (exchangeRate,exchangeRateDate,tarjetaTax) => {
                 </span>
             </p>
 
-        </div>
+                <button class="green-timbocito-button timbocito-update-rate-btn cotizacion-update" type="button" style="margin-top:8px;">Actualizar cotización</button>
+
+            </div>
     `;
 
+    // Marcar los nodos añadidos para poder eliminarlos posteriormente
     sidebar.insertAdjacentHTML('afterbegin', container);
+    let inserted = sidebar.querySelectorAll('.recommendation_reasons.cotizacion-wrapper, .heading.heading_steamcito_3');
+    inserted.forEach(el => el.classList.add('timbocito-inserted', 'cotizacion-block'));
 
     let dolarTarjetaItem = document.querySelector('.dolar_tarjeta');
     dolarTarjetaItem && dolarTarjetaItem.addEventListener('click', () => {changePaymentMethodState('timbocito-cotizacion-tarjeta');window.location.reload()} )
+
+    // Listener para el botón de actualización dentro de la sección de cotización
+    let cotBtn = sidebar.querySelector('.timbocito-update-rate-btn');
+    if(cotBtn && !cotBtn.dataset.listenerAttached){
+        cotBtn.addEventListener('click', async () => {
+            if(window.__timbocitoUpdatingRate) return;
+            window.__timbocitoUpdatingRate = true;
+            cotBtn.disabled = true;
+            const original = cotBtn.innerText;
+            cotBtn.innerText = 'Actualizando...';
+            try{
+                await getUsdExchangeRate(true);
+                await getExchangeRate();
+                try{ await getAppPricing(getAppData(regionalUrl)); } catch(e){}
+                // Reprocesar precios visibles en la página para reflejar la nueva cotización
+                try{ getPrices('standard'); } catch(e){}
+            } catch(e){
+                console.error('Error actualizando cotización desde sección cotización', e);
+            }
+            cotBtn.innerText = original;
+            cotBtn.disabled = false;
+            window.__timbocitoUpdatingRate = false;
+        });
+        cotBtn.dataset.listenerAttached = '1';
+    }
 }
 
 
@@ -281,7 +319,11 @@ const renderRegionalIndicator = (appData, exchangeRate) => {
     let sidebar = document.querySelector('.rightcol.game_meta_data');
 
     if(!sidebar) return;
+    // Evitar duplicados de bloques Timbocito (solo los del indicador regional)
+    Array.from(sidebar.querySelectorAll('.regional-meter-wrapper.timbocito-inserted, .heading_steamcito_1.timbocito-inserted')).forEach(el => el.remove());
+    // No tocar el bloque de cotización si existe (cotizacion-block)
 
+    // Preparar container del indicador regional
     let container =
         `
     <div class="block responsive_apppage_details_right heading heading_steamcito_1 heading_timbocito_1">
@@ -289,7 +331,7 @@ const renderRegionalIndicator = (appData, exchangeRate) => {
         <span>por Timbocito</span>
     
     </div>
-    <div class="block responsive_apppage_details_right recommendation_reasons regional-meter-wrapper ${indicatorStyle} content_steamcito_1 content_timbocito_1">
+        <div class="block responsive_apppage_details_right recommendation_reasons regional-meter-wrapper ${indicatorStyle} content_steamcito_1 content_timbocito_1">
         <div class="regional-meter-container">
             <div class="regional-meter-bar regional-meter-bar--expensive ${appData.regionalStatus == "expensive" && "regional-meter-bar--selected"}">
                 <span>Off</span>
@@ -517,7 +559,34 @@ const renderRegionalIndicator = (appData, exchangeRate) => {
     }
 
     `
+    // Insertar solo el indicador regional; el bloque de cotización lo maneja renderExchangeIndicator
     sidebar.insertAdjacentHTML('afterbegin', container);
+    // Marcar los elementos añadidos para evitar duplicados posteriores
+    let added = sidebar.querySelectorAll('.responsive_apppage_details_right.heading_steamcito_1, .regional-meter-wrapper, .heading_steamcito_3');
+    added.forEach(el => el.classList.add('timbocito-inserted'));
+
+    // Solicitar al módulo de cotización que inserte/actualice su bloque debajo del regional
+    try{ getExchangeRate(); } catch(e){}
+
+    // Asegurar listener en el botón de actualización insertado junto a la cotización
+    let newCotBtn = sidebar.querySelector('.timbocito-update-rate-btn');
+    if(newCotBtn && !newCotBtn.dataset.listenerAttached){
+        newCotBtn.addEventListener('click', async () => {
+            newCotBtn.disabled = true;
+            const original = newCotBtn.innerText;
+            newCotBtn.innerText = 'Actualizando...';
+            try{
+                await getUsdExchangeRate(true);
+                await getExchangeRate();
+                try{ await getAppPricing(getAppData(regionalUrl)); } catch(e){}
+            } catch(e){
+                console.error('Error actualizando cotización desde sección regional', e);
+            }
+            newCotBtn.innerText = original;
+            newCotBtn.disabled = false;
+        });
+        newCotBtn.dataset.listenerAttached = '1';
+    }
 
     let toggleablePrices = document.querySelectorAll('.regional-meter-price-toggle');
     toggleablePrices.forEach(priceEl => {
@@ -563,8 +632,7 @@ const renderRegionalIndicator = (appData, exchangeRate) => {
         closeModalButton.addEventListener('click', () => modal.classList.toggle('notify-publisher-popup--hidden'))
     }
 
-
-
+    
 
 }
 

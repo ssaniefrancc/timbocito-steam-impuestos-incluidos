@@ -25,14 +25,29 @@ function getPrices(type){
         divs.forEach(div => setArgentinaPrice(div));
     }
     else if(type == "wishlist"){
-        setInterval(() => {
-            let divs = document.querySelectorAll('div.Panel div');
+        // Reemplazamos setInterval por MutationObserver para evitar queries masivos cada 1s.
+        // Además usamos :not([attributeName]) para saltear elementos ya procesados.
+        const processWishlistPrices = () => {
+            let divs = document.querySelectorAll(`div.Panel div:not([${attributeName}])`);
             divs.forEach(div => {
                 if(div.innerText.slice(0,1) == "$" && div.children.length == 0) {
                     setArgentinaPrice(div);
                 }
-            })
-        },1000)
+            });
+        };
+
+        processWishlistPrices(); // Primera pasada inmediata
+
+        let wishlistDebounceTimer = null;
+        const wishlistObserver = new MutationObserver(() => {
+            clearTimeout(wishlistDebounceTimer);
+            wishlistDebounceTimer = setTimeout(processWishlistPrices, 300);
+        });
+
+        wishlistObserver.observe(document.body, {
+            childList: true,
+            subtree: true
+        });
     }
 }
 
@@ -119,6 +134,8 @@ function renderCart(){
             } else{
                 mixedWrapper.style.display = "block";
             }
+
+            
 
 
         }
@@ -336,43 +353,47 @@ async function processExchangeRate(type,localStorageItemKey,defaultValue){
     }
 }
 
-async function getUsdExchangeRate(){
-    let shouldRefresh = evaluateDate('timbocito-cotizacion-tarjeta', 3600); // Solo actualiza si pasó más de 1 hora
-    if(shouldRefresh){
-        try {
-            // Usamos una API gratuita y pública para obtener USD -> PYG
-            const response = await fetch('https://open.er-api.com/v6/latest/USD');
-            const data = await response.json();
-            
-            if(data.result === "success" && data.rates.PYG){
-                const pygRate = data.rates.PYG;
-                const updateDate = new Date().toLocaleString("es-PY");
 
-                const exchangeRateJSON = {
-                    rate : pygRate,
-                    taxAmount: 10, // IVA Paraguay
-                    rateDateProvided: updateDate,
-                    date: Date.now()
-                };
+async function getUsdExchangeRate(force = false){
+    // Si no se fuerza la actualización, solo actualizar si pasaron más de 6 horas
+    if(!force){
+        let shouldRefresh = evaluateDate('timbocito-cotizacion-tarjeta', 21600);
+        if(!shouldRefresh) return;
+    }
 
-                // Guardamos la misma cotización para todos los métodos para simplificar en Paraguay
-                localStorage.setItem('timbocito-cotizacion-tarjeta', JSON.stringify(exchangeRateJSON));
-                localStorage.setItem('timbocito-cotizacion-crypto', JSON.stringify(exchangeRateJSON));
-                localStorage.setItem('timbocito-cotizacion-mep', JSON.stringify(exchangeRateJSON));
-                console.log("timbocito PY: Cotización actualizada correctamente", pygRate);
-            }
-        } catch (error) {
-            console.error("timbocito PY: Error al obtener cotización, usando valor por defecto 6100", error);
-            const fallbackJSON = {
-                rate : 6100,
-                taxAmount: 10,
-                rateDateProvided: new Date().toLocaleString("es-PY"),
+    try {
+        // Usamos una API gratuita y pública para obtener USD -> PYG
+        const response = await fetch('https://open.er-api.com/v6/latest/USD');
+        const data = await response.json();
+
+        if(data.result === "success" && data.rates.PYG){
+            const pygRate = data.rates.PYG;
+            const updateDate = new Date().toLocaleString("es-PY");
+
+            const exchangeRateJSON = {
+                rate : pygRate,
+                taxAmount: 10, // IVA Paraguay
+                rateDateProvided: updateDate,
                 date: Date.now()
             };
-            localStorage.setItem('timbocito-cotizacion-tarjeta', JSON.stringify(fallbackJSON));
-            localStorage.setItem('timbocito-cotizacion-crypto', JSON.stringify(fallbackJSON));
-            localStorage.setItem('timbocito-cotizacion-mep', JSON.stringify(fallbackJSON));
+
+            // Guardamos la misma cotización para todos los métodos para simplificar en Paraguay
+            localStorage.setItem('timbocito-cotizacion-tarjeta', JSON.stringify(exchangeRateJSON));
+            localStorage.setItem('timbocito-cotizacion-crypto', JSON.stringify(exchangeRateJSON));
+            localStorage.setItem('timbocito-cotizacion-mep', JSON.stringify(exchangeRateJSON));
+            console.log("timbocito PY: Cotización actualizada correctamente", pygRate);
         }
+    } catch (error) {
+        console.error("timbocito PY: Error al obtener cotización, usando valor por defecto 6100", error);
+        const fallbackJSON = {
+            rate : 6100,
+            taxAmount: 10,
+            rateDateProvided: new Date().toLocaleString("es-PY"),
+            date: Date.now()
+        };
+        localStorage.setItem('timbocito-cotizacion-tarjeta', JSON.stringify(fallbackJSON));
+        localStorage.setItem('timbocito-cotizacion-crypto', JSON.stringify(fallbackJSON));
+        localStorage.setItem('timbocito-cotizacion-mep', JSON.stringify(fallbackJSON));
     }
 }
 
