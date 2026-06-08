@@ -67,7 +67,7 @@ https://github.com/emilianog94/Steamcito-Precios-Steam-Argentina-Impuestos-Inclu
 
 Descarga la última versión:
 
-https://github.com/ssaniefrancc/timbocito-steam-impuestos-incluidos/releases/latest/download/Timbocito.-.Steam.Paraguay.crx
+https://github.com/ssaniefrancc/timbocito-steam-impuestos-incluidos/releases/latest/download/timbocito.crx
 
 ---
 
