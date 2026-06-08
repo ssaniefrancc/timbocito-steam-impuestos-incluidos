@@ -1,7 +1,42 @@
 // Inicialización para la página de búsqueda
 (async() => {
     await getUsdExchangeRate();
+    getPrices("standard");
     getPrices("search");
+
+    // Debounce: evita ejecutar getPrices en cada micro-cambio del DOM
+    let debounceTimer = null;
+    function debouncedGetPrices() {
+        clearTimeout(debounceTimer);
+        debounceTimer = setTimeout(() => getPrices("standard"), 300);
+    }
+
+    let MutationObserverRef = window.MutationObserver || window.WebKitMutationObserver;
+
+    const observer = new MutationObserverRef(function(mutations) {
+        const hasNewNodes = mutations.some(m => m.addedNodes.length > 0);
+        if (hasNewNodes) debouncedGetPrices();
+    });
+
+    observer.observe(document, {
+        subtree: true,
+        childList: true
+    });
+
+    // Observador de contenedor de Search (dropdown de sugerencias)
+    const searchDiv = document.querySelector('div[id*="searchSuggestion"]');
+    if (searchDiv) {
+        let searchDebounceTimer = null;
+        const searchObserver = new MutationObserverRef(() => {
+            clearTimeout(searchDebounceTimer);
+            searchDebounceTimer = setTimeout(() => getPrices("search"), 300);
+        });
+
+        searchObserver.observe(searchDiv, {
+            childList: true,
+            subtree: true
+        });
+    }
 })();
 
 function changeRangeValue() {
