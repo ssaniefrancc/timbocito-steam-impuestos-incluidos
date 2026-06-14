@@ -24,6 +24,7 @@ npm-debug.log*
 # Build
 dist/
 build/
+versions/
 
 # Maps
 *.css.map

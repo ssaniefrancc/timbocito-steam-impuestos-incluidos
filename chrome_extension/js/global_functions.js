@@ -26,37 +26,21 @@ function getPrices(type){
         // Procesar en batches de 20 para no bloquear el hilo principal
         processBatch(prices, 0, 20);
     } else if(type == "cart"){
-        setTimeout(() => {
+        if(window.renderCartTimer) clearTimeout(window.renderCartTimer);
+        window.renderCartTimer = setTimeout(() => {
             return renderCart();
-        },1000)
+        }, 1000);
     } 
     else if(type == "search"){
         const divs = findPricesInSearch();
         divs.forEach(div => setArgentinaPrice(div));
     }
     else if(type == "wishlist"){
-        // Reemplazamos setInterval por MutationObserver para evitar queries masivos cada 1s.
-        // Además usamos :not([attributeName]) para saltear elementos ya procesados.
-        const processWishlistPrices = () => {
-            let divs = document.querySelectorAll(`div.Panel div:not([${attributeName}])`);
-            divs.forEach(div => {
-                if(div.innerText.slice(0,1) == "$" && div.children.length == 0) {
-                    setArgentinaPrice(div);
-                }
-            });
-        };
-
-        processWishlistPrices(); // Primera pasada inmediata
-
-        let wishlistDebounceTimer = null;
-        const wishlistObserver = new MutationObserver(() => {
-            clearTimeout(wishlistDebounceTimer);
-            wishlistDebounceTimer = setTimeout(processWishlistPrices, 300);
-        });
-
-        wishlistObserver.observe(document.body, {
-            childList: true,
-            subtree: true
+        let divs = document.querySelectorAll(`div.Panel div:not([${attributeName}])`);
+        divs.forEach(div => {
+            if(div.innerText.slice(0,1) == "$" && div.children.length == 0) {
+                setArgentinaPrice(div);
+            }
         });
     }
 }
