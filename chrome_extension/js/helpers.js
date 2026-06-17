@@ -505,13 +505,31 @@ function getBalance() {
 }
 
 function extractNumberFromString(string){
-    let regexFindNumber = /(\d{1,3}(,\d{3})*(\.\d+)?)/;
-    let match = string.match(regexFindNumber);
+    let match = string.match(/[\d,.]+/);
     if(match){
-        return match[0].replace(/,/g, '');
+        let numStr = match[0];
+        
+        // Si tiene coma y punto, el último es el separador decimal
+        if (numStr.includes(',') && numStr.includes('.')) {
+            if (numStr.lastIndexOf(',') > numStr.lastIndexOf('.')) {
+                // Formato: 1.234,56
+                numStr = numStr.replace(/\./g, '').replace(',', '.');
+            } else {
+                // Formato: 1,234.56
+                numStr = numStr.replace(/,/g, '');
+            }
+        } else if (numStr.includes(',')) {
+            // Solo tiene coma. Si termina en 2 dígitos, es decimal (ej. 21,99)
+            let parts = numStr.split(',');
+            if (parts.length > 1 && parts[parts.length - 1].length === 2) {
+                numStr = numStr.replace(',', '.');
+            } else {
+                numStr = numStr.replace(/,/g, ''); // Separador de miles
+            }
+        }
+        
+        return numStr;
     }
-
-
 }
 
 function stringToNumber(number, positionArs = 5) {
