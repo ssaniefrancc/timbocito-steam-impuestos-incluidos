@@ -2,9 +2,11 @@
 
 # 🇵🇾 Timbocito Paraguay – Precios en Guaraníes para Steam
 
-![GitHub release](https://img.shields.io/github/v/release/ssaniefrancc/timbocito-steam-impuestos-incluidos?label=Version\&style=for-the-badge)
-![GitHub downloads](https://img.shields.io/github/downloads/ssaniefrancc/timbocito-steam-impuestos-incluidos/total?label=Descargas\&style=for-the-badge)
-![GitHub stars](https://img.shields.io/github/stars/ssaniefrancc/timbocito-steam-impuestos-incluidos?style=for-the-badge)
+[![Versión](https://img.shields.io/github/v/release/ssaniefrancc/timbocito-steam-impuestos-incluidos?label=Versión&style=for-the-badge&logo=github&logoColor=white&color=1b2838)](https://github.com/ssaniefrancc/timbocito-steam-impuestos-incluidos/releases/latest)
+[![Descargas](https://img.shields.io/github/downloads/ssaniefrancc/timbocito-steam-impuestos-incluidos/total?label=Descargas&style=for-the-badge&logo=steam&logoColor=white&color=171a21)](https://github.com/ssaniefrancc/timbocito-steam-impuestos-incluidos/releases)
+[![Estrellas](https://img.shields.io/github/stars/ssaniefrancc/timbocito-steam-impuestos-incluidos?label=Estrellas&style=for-the-badge&logo=apachespark&logoColor=white&color=f6c90e&labelColor=333)](https://github.com/ssaniefrancc/timbocito-steam-impuestos-incluidos/stargazers)
+[![Estado](https://img.shields.io/badge/Estado-En_desarrollo-orange?style=for-the-badge&logo=githubactions&logoColor=white)](https://github.com/ssaniefrancc/timbocito-steam-impuestos-incluidos)
+[![Paraguay](https://img.shields.io/badge/Paraguay-🇵🇾_Guaraníes-D52B1E?style=for-the-badge&labelColor=0038A8)](https://github.com/ssaniefrancc/timbocito-steam-impuestos-incluidos)
 
 **Timbocito Paraguay** es un fork de **Steamcito**, adaptado específicamente para usuarios de Paraguay.
 
