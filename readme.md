@@ -69,7 +69,7 @@ https://github.com/emilianog94/Steamcito-Precios-Steam-Argentina-Impuestos-Inclu
 
 Descarga la última versión:
 
-https://github.com/ssaniefrancc/timbocito-steam-impuestos-incluidos/releases/latest/download/timbocito.crx
+[Click aquí!](https://github.com/ssaniefrancc/timbocito-steam-impuestos-incluidos/releases/latest/download/timbocito.crx)
 
 ---
 
@@ -111,7 +111,7 @@ Activa el **Modo Desarrollador** y arrastra el archivo `.crx` descargado anterio
 
 Descarga la última versión del proyecto:
 
-https://github.com/ssaniefrancc/timbocito-steam-impuestos-incluidos/archive/refs/heads/main.zip
+[Click aquí!](https://github.com/ssaniefrancc/timbocito-steam-impuestos-incluidos/archive/refs/heads/main.zip)
 
 ---
 
