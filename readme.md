@@ -2,15 +2,19 @@
 
 # 🇵🇾 Timbocito Paraguay – Precios en Guaraníes para Steam
 
-![GitHub release](https://img.shields.io/github/v/release/ssaniefrancc/timbocito-steam-impuestos-incluidos?label=Version\&style=for-the-badge)
-![GitHub downloads](https://img.shields.io/github/downloads/ssaniefrancc/timbocito-steam-impuestos-incluidos/total?label=Descargas\&style=for-the-badge)
-![GitHub stars](https://img.shields.io/github/stars/ssaniefrancc/timbocito-steam-impuestos-incluidos?style=for-the-badge)
+[![Versión](https://img.shields.io/github/v/release/ssaniefrancc/timbocito-steam-impuestos-incluidos?label=Versión&style=for-the-badge&logo=github&logoColor=white&color=1b2838)](https://github.com/ssaniefrancc/timbocito-steam-impuestos-incluidos/releases/latest)
+[![Descargas](https://img.shields.io/github/downloads/ssaniefrancc/timbocito-steam-impuestos-incluidos/total?label=Descargas&style=for-the-badge&logo=steam&logoColor=white&color=171a21)](https://github.com/ssaniefrancc/timbocito-steam-impuestos-incluidos/releases)
+[![Estrellas](https://img.shields.io/github/stars/ssaniefrancc/timbocito-steam-impuestos-incluidos?label=Estrellas&style=for-the-badge&logo=apachespark&logoColor=white&color=f6c90e&labelColor=333)](https://github.com/ssaniefrancc/timbocito-steam-impuestos-incluidos/stargazers)
+[![Estado](https://img.shields.io/badge/Estado-En_desarrollo-orange?style=for-the-badge&logo=githubactions&logoColor=white)](https://github.com/ssaniefrancc/timbocito-steam-impuestos-incluidos)
+[![Paraguay](https://img.shields.io/badge/Paraguay-🇵🇾_Guaraníes-D52B1E?style=for-the-badge&labelColor=0038A8)](https://github.com/ssaniefrancc/timbocito-steam-impuestos-incluidos)
 
 **Timbocito Paraguay** es un fork de **Steamcito**, adaptado específicamente para usuarios de Paraguay.
 
 La extensión convierte automáticamente los precios de Steam desde **USD a Guaraníes (₲)** e incluye el **IVA del 10% aplicado a servicios digitales**, permitiendo visualizar el costo real de los juegos de forma rápida y transparente.
 
-> 🚧 Actualmente no está publicado en Chrome Web Store, pero será lanzado próximamente.
+## Ya disponible en la Chrome Web Store!
+
+[![Disponible en Chrome Web Store](https://img.shields.io/badge/Chrome_Web_Store-Instalar_Extensión-red?style=for-the-badge&logo=google-chrome&logoColor=white)](https://chromewebstore.google.com/detail/timbocito-paraguay-precio/pfnmomihnmacngfhglmeokofjkoiepoh)
 
 ---
 
@@ -62,12 +66,14 @@ https://github.com/emilianog94/Steamcito-Precios-Steam-Argentina-Impuestos-Inclu
 ---
 
 # 🎮 Instalación en Steam
+## Metodo 1 (Recomendado)
 
+## Metodo 2
 ## 1. Descargar el archivo `.crx`
 
 Descarga la última versión:
 
-https://github.com/ssaniefrancc/timbocito-steam-impuestos-incluidos/releases/latest/download/timbocito.crx
+[Click aquí!](https://github.com/ssaniefrancc/timbocito-steam-impuestos-incluidos/releases/latest/download/timbocito.crx)
 
 ---
 
@@ -109,7 +115,7 @@ Activa el **Modo Desarrollador** y arrastra el archivo `.crx` descargado anterio
 
 Descarga la última versión del proyecto:
 
-https://github.com/ssaniefrancc/timbocito-steam-impuestos-incluidos/archive/refs/heads/main.zip
+[Click aquí!](https://github.com/ssaniefrancc/timbocito-steam-impuestos-incluidos/archive/refs/heads/main.zip)
 
 ---
 
