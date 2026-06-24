@@ -12,7 +12,9 @@
 
 La extensión convierte automáticamente los precios de Steam desde **USD a Guaraníes (₲)** e incluye el **IVA del 10% aplicado a servicios digitales**, permitiendo visualizar el costo real de los juegos de forma rápida y transparente.
 
-> 🚧 Actualmente no está publicado en Chrome Web Store, pero será lanzado próximamente.
+## Ya disponible en la Chrome Web Store!
+
+[![Disponible en Chrome Web Store](https://img.shields.io/badge/Chrome_Web_Store-Instalar_Extensión-red?style=for-the-badge&logo=google-chrome&logoColor=white)](https://chromewebstore.google.com/detail/timbocito-paraguay-precio/pfnmomihnmacngfhglmeokofjkoiepoh)
 
 ---
 
@@ -64,7 +66,9 @@ https://github.com/emilianog94/Steamcito-Precios-Steam-Argentina-Impuestos-Inclu
 ---
 
 # 🎮 Instalación en Steam
+## Metodo 1 (Recomendado)
 
+## Metodo 2
 ## 1. Descargar el archivo `.crx`
 
 Descarga la última versión:
