@@ -68,6 +68,14 @@ https://github.com/emilianog94/Steamcito-Precios-Steam-Argentina-Impuestos-Inclu
 # 🎮 Instalación en Steam
 ## Metodo 1 (Recomendado)
 
+En la tienda de Steam, haz click derecho sobre el banner principal y selecciona **"Open link in new tab / Abrir en una nueva pestaña"**, abrimos una nueva pestaña escribimos Chrome Extensions y buscamos Timbocito 
+
+**(Tambien pueden copiar el enlace desde el navegador y pegarlo directamente, sería más rapido)**
+
+Lo instalamos, guardamos y listo!
+
+![Metodo1](misc/metodo1.gif)
+
 ## Metodo 2
 ## 1. Descargar el archivo `.crx`
 
