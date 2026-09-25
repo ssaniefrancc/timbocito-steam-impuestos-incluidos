@@ -98,16 +98,25 @@ const getAppPricing = async (appInitialData) => {
             fetch(`${type == "app" ? `${appEndpoint}&cc=py` : `${subEndpoint}&cc=py`}`, { credentials: 'omit' })
         ]);
 
-        let appIdResponse = await appIdFetch.json();
-        let appIdArgResponse = await appIdFetchArg.json();
+        // Steam puede devolver la respuesta bajo una clave distinta al ID pedido
+        // (por ejemplo, el ID de un DLC relacionado).
+        const getEntry = (response) => {
+            if (!response) return undefined;
+            if (response[id]) return response[id];
+            const entries = Object.values(response);
+            return entries.find(entry => entry?.data?.steam_appid == id)
+                || (entries.length === 1 ? entries[0] : undefined);
+        };
 
-        if (appIdResponse[id] && appIdArgResponse[id]) {
-            if (appIdResponse[id].success && appIdArgResponse[id].success) {
-                if (appIdResponse[id].data.is_free || !appIdResponse[id].data[type == "sub" ? "price" : "price_overview"]) {
+        const appIdEntry = getEntry(await appIdFetch.json());
+        const appIdArgEntry = getEntry(await appIdFetchArg.json());
+
+        if (appIdEntry?.success && appIdArgEntry?.success) {
+                if (appIdEntry.data.is_free || !appIdEntry.data[type == "sub" ? "price" : "price_overview"]) {
                     return;
                 }
-                appIdResponse = appIdResponse[id].data;
-                appIdArgResponse = appIdArgResponse[id].data;
+                const appIdResponse = appIdEntry.data;
+                const appIdArgResponse = appIdArgEntry.data;
 
                 const appData = {
                     name: appIdResponse.name,
@@ -184,7 +193,6 @@ const getAppPricing = async (appInitialData) => {
                     renderRegionalIndicator(appData, exchangeRate);
                 }
                 return appData;
-            }
         }
     } catch(err) {
         console.error("timbocito PY: Error en getAppPricing:", err);

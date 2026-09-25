@@ -1,28 +1,7 @@
-// Corro función por primera vez
-(async() => {
-  await getUsdExchangeRate();
-  getPrices("standard");
-  getPrices("search");
-
-  // Debounce: evita ejecutar getPrices en cada micro-cambio del DOM
-  let debounceTimer = null;
-  function debouncedGetPrices() {
-    clearTimeout(debounceTimer);
-    debounceTimer = setTimeout(() => {
-        getPrices("standard");
-        getPrices("search");
-    }, 300);
-  }
-
-  MutationObserver = window.MutationObserver || window.WebKitMutationObserver;
-
-  const observer = new MutationObserver(function(mutations) {
-      debouncedGetPrices();
-  });
-
-  observer.observe(document, {
-    subtree: true,
-    childList: true,
-    characterData: true
-  });
+// Inicialización y observación incremental para páginas de juegos.
+(async () => {
+    await getUsdExchangeRate();
+    getPrices("standard");
+    getPrices("search");
+    observePriceMutations(["standard", "search"]);
 })();

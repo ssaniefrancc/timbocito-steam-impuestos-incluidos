@@ -1,48 +1,150 @@
 const walletBalance = getBalance();
 const totalTaxes = getTotalTaxes();
 
-// Procesa elementos en batches para no congelar la UI
-function processBatch(elements, index, batchSize) {
-    const end = Math.min(index + batchSize, elements.length);
-    for (let i = index; i < end; i++) {
-        setArgentinaPrice(elements[i]);
+// Mantiene una sola cola de precios para que las actualizaciones del DOM no
+// creen cadenas de requestAnimationFrame paralelas.
+const pendingPrices = new Set();
+let priceBatchScheduled = false;
+
+function processBatch(idleDeadline) {
+    priceBatchScheduled = false;
+    let processed = 0;
+    const maxPerBatch = 8;
+
+    while (pendingPrices.size && processed < maxPerBatch) {
+        if (processed > 0 && idleDeadline && !idleDeadline.didTimeout
+            && idleDeadline.timeRemaining() < 2) break;
+        const price = pendingPrices.values().next().value;
+        pendingPrices.delete(price);
+        if (price?.isConnected) setArgentinaPrice(price);
+        processed++;
     }
-    if (end < elements.length) {
-        requestAnimationFrame(() => processBatch(elements, end, batchSize));
+
+    if (pendingPrices.size) schedulePriceBatch();
+}
+
+function schedulePriceBatch() {
+    if (priceBatchScheduled) return;
+    priceBatchScheduled = true;
+    if (window.requestIdleCallback) {
+        window.requestIdleCallback(processBatch, {timeout: 100});
+    } else {
+        requestAnimationFrame(processBatch);
     }
 }
 
-function getPrices(type){
+function queuePrices(elements) {
+    elements.forEach(price => {
+        if (price?.isConnected && !price.hasAttribute(attributeName)) pendingPrices.add(price);
+    });
+    if (pendingPrices.size) schedulePriceBatch();
+}
+
+function queryWithin(root, selector) {
+    const matches = [];
+    if (root instanceof Element && root.matches(selector)) matches.push(root);
+    if (root.querySelectorAll) matches.push(...root.querySelectorAll(selector));
+    return matches;
+}
+
+function getPrices(type, root = document){
     let prices;
     if (type == "standard"){
-        prices = Array.from(document.querySelectorAll(priceContainers));
+        prices = queryWithin(root, priceContainers);
         // Fix específico para obtener las DLCs sin descuento y que estas no hagan overlap con las DLCs con descuento
-        let standardDlcPrices = document.querySelectorAll(`.game_area_dlc_price:not([${attributeName}])`);
+        let standardDlcPrices = queryWithin(root, `.game_area_dlc_price:not([${attributeName}])`);
         standardDlcPrices.forEach(dlcPrice => { 
             if(!dlcPrice.querySelector("div")){
-                setArgentinaPrice(dlcPrice);
+                prices.push(dlcPrice);
             }
         });
-        // Procesar en batches de 20 para no bloquear el hilo principal
-        processBatch(prices, 0, 20);
+        queuePrices(prices);
     } else if(type == "cart"){
         if(window.renderCartTimer) clearTimeout(window.renderCartTimer);
         window.renderCartTimer = setTimeout(() => {
             return renderCart();
         }, 1000);
-    } 
+    }
     else if(type == "search"){
-        const divs = findPricesInSearch();
-        divs.forEach(div => setArgentinaPrice(div));
+        const containingSearchRoot = root.closest?.('div[id*=searchSuggestion]');
+        const searchRoots = containingSearchRoot
+            ? [containingSearchRoot]
+            : queryWithin(root, 'div[id*=searchSuggestion]');
+        const divs = searchRoots.flatMap(searchRoot => queryWithin(searchRoot, 'a.Focusable div'))
+            .filter(div => !div.querySelector('div') && /^\$\d+\.\d{2}$/.test(div.innerText.trim()));
+        queuePrices(divs);
     }
     else if(type == "wishlist"){
-        let divs = document.querySelectorAll(`div.Panel div:not([${attributeName}])`);
+        let divs = queryWithin(root, `div.Panel div:not([${attributeName}])`);
         divs.forEach(div => {
             if(div.innerText.slice(0,1) == "$" && div.children.length == 0) {
-                setArgentinaPrice(div);
+                prices = prices || [];
+                prices.push(div);
             }
         });
+        queuePrices(prices || []);
     }
+}
+
+function observePriceMutations(types, {delay = 150} = {}) {
+    let timer = null;
+    const roots = new Set();
+    const observer = new MutationObserver(mutations => {
+        for (const mutation of mutations) {
+            const target = mutation.target.nodeType === Node.ELEMENT_NODE
+                ? mutation.target
+                : mutation.target.parentElement;
+            if (!target || target.closest(`[${attributeName}], .timbocito_cart, .menu-timbocito, .menu-timbocito-background`)) continue;
+
+            let foundElement = false;
+            mutation.addedNodes.forEach(node => {
+                if (node.nodeType !== Node.ELEMENT_NODE) return;
+                if (node.matches('.timbocito_cart, .menu-timbocito, .menu-timbocito-background')) return;
+                roots.add(node);
+                foundElement = true;
+            });
+            // Steam también reemplaza solo el texto de un precio ya existente.
+            if (!foundElement && target.matches(priceContainers)) roots.add(target);
+        }
+        if (!roots.size) return;
+        if (timer !== null) return;
+        timer = setTimeout(() => {
+            timer = null;
+            const pendingRoots = Array.from(roots);
+            roots.clear();
+            const processedSearchRoots = new Set();
+            const processedWishlistPanels = new Set();
+            pendingRoots.forEach(root => types.forEach(type => {
+                if (!root.isConnected) return;
+                if (type === "cart") {
+                    if (root.matches?.('.Panel') || root.closest?.('.Panel')) getPrices(type);
+                    return;
+                }
+                if (type === "wishlist") {
+                    const panel = root.closest?.('div.Panel');
+                    const scanRoot = panel || root;
+                    if (processedWishlistPanels.has(scanRoot)) return;
+                    processedWishlistPanels.add(scanRoot);
+                    getPrices(type, scanRoot);
+                    return;
+                }
+                if (type === "search") {
+                    const searchRoot = root.closest?.('div[id*=searchSuggestion]');
+                    if (searchRoot) {
+                        if (processedSearchRoots.has(searchRoot)) return;
+                        processedSearchRoots.add(searchRoot);
+                        getPrices(type, searchRoot);
+                        return;
+                    }
+                    getPrices(type, root);
+                    return;
+                }
+                getPrices(type, root);
+            }));
+        }, delay);
+    });
+    observer.observe(document, {subtree: true, childList: true});
+    return observer;
 }
 
 function getNeededWalletAmount(currentWalletAmount){

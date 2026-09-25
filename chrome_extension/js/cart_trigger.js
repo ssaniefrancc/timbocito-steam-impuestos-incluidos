@@ -1,31 +1,7 @@
-// Corro función por primera vez
-(async() => {
+// El resumen del carrito se actualiza con cambios de contenido, sin volver a
+// buscar precios por todo el documento.
+(async () => {
     await getUsdExchangeRate();
     getPrices("cart");
-    getPrices("standard");
-    getPrices("search");
-  
-    // Debounce: evita ejecutar getPrices en cada micro-cambio del DOM
-    let debounceTimer = null;
-    function debouncedGetPrices() {
-        clearTimeout(debounceTimer);
-        debounceTimer = setTimeout(() => {
-            getPrices("cart");
-            getPrices("standard");
-            getPrices("search");
-        }, 300);
-    }
-
-    MutationObserver = window.MutationObserver || window.WebKitMutationObserver;
-
-    const observer = new MutationObserver(function(mutations) {
-        debouncedGetPrices();
-    });
-  
-    observer.observe(document, {
-      subtree: true,
-      childList: true,
-      characterData: true
-    });
-  
-  })();
+    observePriceMutations(["cart"]);
+})();

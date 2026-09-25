@@ -1,30 +1,9 @@
-// Inicialización para la página de búsqueda
-(async() => {
+// Inicialización y observación incremental de resultados y sugerencias.
+(async () => {
     await getUsdExchangeRate();
     getPrices("standard");
     getPrices("search");
-
-    // Debounce: evita ejecutar getPrices en cada micro-cambio del DOM
-    let debounceTimer = null;
-    function debouncedGetPrices() {
-        clearTimeout(debounceTimer);
-        debounceTimer = setTimeout(() => {
-            getPrices("standard");
-            getPrices("search");
-        }, 300);
-    }
-
-    let MutationObserverRef = window.MutationObserver || window.WebKitMutationObserver;
-
-    const observer = new MutationObserverRef(function(mutations) {
-        debouncedGetPrices();
-    });
-
-    observer.observe(document, {
-        subtree: true,
-        childList: true,
-        characterData: true
-    });
+    observePriceMutations(["standard", "search"]);
 })();
 
 function changeRangeValue() {
@@ -35,20 +14,16 @@ function changeRangeValue() {
         if (rangeDisplayTexttimbocito) {
             rangeDisplayTexttimbocito.innerText = `Menos de ₲ ${Math.round(currentNumber.value * exchangeRate * totalTaxes)} 🧉`;
         }
-    } else {
-        if (rangeDisplayTexttimbocito) {
-            rangeDisplayTexttimbocito.innerText = "";
-        }
+    } else if (rangeDisplayTexttimbocito) {
+        rangeDisplayTexttimbocito.innerText = "";
     }
 }
 
 let rangeInput = document.querySelector('input#price_range');
 let rangeDisplayText = document.querySelector('#price_range_display');
-if (rangeDisplayText) {
+if (rangeDisplayText && !document.querySelector('.range_display_timbocito')) {
     rangeDisplayText.insertAdjacentHTML('afterend', `<p class="range_display range_display_timbocito"></p>`);
 }
 let rangeDisplayTexttimbocito = document.querySelector('.range_display_timbocito');
 
-if (rangeInput) {
-    rangeInput.addEventListener('input', changeRangeValue);
-}
+if (rangeInput) rangeInput.addEventListener('input', changeRangeValue);
