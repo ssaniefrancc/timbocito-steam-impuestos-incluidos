@@ -240,7 +240,7 @@
   <div class="flag-wrap">&#x1F1F5;&#x1F1FE;</div>
   <h1>Política de Privacidad</h1>
   <p>Timbocito Paraguay &ndash; Precios en Guaraníes para Steam</p>
-  <span class="badge">Última actualización: junio 2025</span>
+  <span class="badge">Actualizada el 17 de noviembre de 2026</span>
 </header>
 
 <main>
@@ -266,16 +266,16 @@
   <div class="card">
     <div class="card-header">
       <div class="card-icon">&#x1F6AB;</div>
-      <h2>Datos que NO recopilamos</h2>
+      <h2>Datos que usa la extensión</h2>
     </div>
     <div class="divider"></div>
-    <p>Timbocito Paraguay <strong>no recopila, almacena ni transmite</strong> ningún dato personal del usuario. En particular:</p>
+    <p>La extensión lee el saldo de Steam Wallet que Steam muestra en la página para elegir la moneda en el modo inteligente y calcular el pago mixto en el carrito. Procesa el saldo en el navegador, sin guardarlo ni enviarlo a terceros.</p>
     <ul>
       <li>No recopilamos nombres, correos electrónicos ni información de contacto.</li>
       <li>No registramos historial de navegación ni actividad en Steam.</li>
-      <li>No accedemos a datos de cuentas, contraseñas ni información de pago.</li>
+      <li>No accedemos a contraseñas ni a datos de tarjetas.</li>
       <li>No usamos cookies ni tecnologías de rastreo.</li>
-      <li>No enviamos ningún dato del usuario a servidores propios.</li>
+      <li>No operamos un servidor que reciba los datos del usuario.</li>
     </ul>
   </div>
 
@@ -286,13 +286,15 @@
     </div>
     <div class="divider"></div>
     <p>
-      La extensión utiliza el almacenamiento local del navegador
-      (<span class="tag">chrome.storage.local</span>) exclusivamente para guardar:
+      La extensión guarda en el almacenamiento local de Steam en el navegador
+      (<span class="tag">localStorage</span>):
     </p>
     <ul>
       <li>Las preferencias del usuario (mostrar precio con o sin IVA, divisa predeterminada, recargos de banco).</li>
       <li>El tipo de cambio USD/PYG más reciente, para evitar solicitudes repetidas a la API.</li>
+      <li>Datos públicos de precios regionales para reutilizarlos al volver a una ficha.</li>
     </ul>
+    <p>También usa <span class="tag">chrome.storage.local</span> para guardar un indicador interno de actualización de la extensión.</p>
     <div class="highlight">
       Estos datos se almacenan <strong>únicamente en el dispositivo del usuario</strong>
       y nunca son enviados a ningún servidor externo.
@@ -308,7 +310,7 @@
     <p>La extensión realiza solicitudes a los siguientes servicios para obtener datos necesarios para su funcionamiento:</p>
     <ul>
       <li>
-        <strong>Open Exchange Rates</strong>
+        <strong>ExchangeRate-API</strong>
         (<a href="https://open.er-api.com" target="_blank" rel="noopener">open.er-api.com</a>):
         para obtener el tipo de cambio actualizado entre USD y PYG.
       </li>
@@ -317,11 +319,11 @@
         (<a href="https://store.steampowered.com" target="_blank" rel="noopener">store.steampowered.com</a>):
         para comparar precios regionales de los juegos.
       </li>
+      <li><strong>Google Fonts</strong> (<span class="tag">fonts.gstatic.com</span>) para cargar la fuente de emojis.</li>
     </ul>
     <div class="highlight">
-      Estas solicitudes devuelven únicamente <strong>datos numéricos en formato JSON</strong>
-      (tipos de cambio y precios). No se descarga, importa ni ejecuta ningún código externo.
-      La extensión no transmite información del usuario a estos servicios.
+      Las consultas obtienen datos públicos en JSON o una fuente tipográfica. No se ejecuta código externo.
+      Las solicitudes no incluyen el saldo de Steam Wallet ni las preferencias de Timbocito.
     </div>
   </div>
 
@@ -338,8 +340,8 @@
       a Guaraníes paraguayos.
     </p>
     <p>
-      Este acceso no se utiliza para recopilar datos del usuario ni para interactuar
-      con la cuenta de Steam del usuario de ninguna manera.
+      Timbocito usa los datos de Steam solo para ofrecer los cálculos y la visualización de precios descritos aquí,
+      conforme a los requisitos de Uso Limitado de la Chrome Web Store. La extensión no hace compras ni modifica la cuenta de Steam.
     </p>
   </div>
 

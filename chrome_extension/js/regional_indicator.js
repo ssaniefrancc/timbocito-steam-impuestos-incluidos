@@ -51,14 +51,7 @@ const criticizePublisher = (margin,publisher) => {
 
 const getExchangeRate = async () => {
     await getUsdExchangeRate();
-    let exchangeRate = JSON.parse(localStorage.getItem('timbocito-cotizacion-tarjeta'))?.rate;
-    let exchangeRateDate = JSON.parse(localStorage.getItem('timbocito-cotizacion-tarjeta'))?.rateDateProvided;
-    let tarjetaTax = JSON.parse(localStorage.getItem('timbocito-cotizacion-tarjeta'))?.taxAmount || 10
-
-
-    if(exchangeRate && exchangeRateDate && tarjetaTax){
-        renderExchangeIndicator(exchangeRate,exchangeRateDate,tarjetaTax)
-    }
+    if (getCachedExchangeRate()) renderExchangeIndicator();
 }
 
 const getAppPricing = async (appInitialData) => {
@@ -225,7 +218,7 @@ function attachUpdateRateHandler(btn) {
     btn.dataset.listenerAttached = '1';
 }
 
-const renderExchangeIndicator = (exchangeRate,exchangeRateDate,tarjetaTax) => {
+const renderExchangeIndicator = () => {
     if (indicatorStyle == "barra-oculta") {
         return;
     }
@@ -243,13 +236,6 @@ const renderExchangeIndicator = (exchangeRate,exchangeRateDate,tarjetaTax) => {
     prevCot.forEach(c => c.remove());
     console.debug('timbocito: removed previous cotizacion blocks, inserting new one');
 
-    let staticExchangeRate = exchangeRate;
-
-    provinceTaxes &&
-    provinceTaxes.forEach(tax => {
-        exchangeRate += parseFloat((staticExchangeRate * tax.value / 100).toFixed(2));
-    })
-
     let container = `
         <div class="block responsive_apppage_details_right heading heading_steamcito_3 heading_timbocito_3">
             Cotización del dólar
@@ -259,12 +245,9 @@ const renderExchangeIndicator = (exchangeRate,exchangeRateDate,tarjetaTax) => {
 
             
             <p class="reason for dolar_tarjeta">
-                <span class="name-span">Tarjeta: 1 USD ≈ ${exchangeRate.toFixed(2)} PYG</span>
+                <span class="name-span" data-timbocito-rate-value></span>
                 <br>
-                <span class="name-smaller">
-                   ${tarjetaTax ? `Incluye ${tarjetaTax}% de impuestos (${exchangeRateDate}) ` : ""}  <br>
-                   Aplica a todas las tarjetas emitidas en Paraguay.
-                </span>
+                <span class="name-smaller" data-timbocito-rate-status></span>
             </p>
 
                 <button class="green-timbocito-button timbocito-update-rate-btn cotizacion-update" type="button" style="margin-top:8px;">Actualizar cotización</button>
@@ -274,11 +257,9 @@ const renderExchangeIndicator = (exchangeRate,exchangeRateDate,tarjetaTax) => {
 
     // Marcar los nodos añadidos para poder eliminarlos posteriormente
     sidebar.insertAdjacentHTML('afterbegin', container);
+    renderExchangeRateStatus(sidebar);
     let inserted = sidebar.querySelectorAll('.recommendation_reasons.cotizacion-wrapper, .heading.heading_steamcito_3');
     inserted.forEach(el => el.classList.add('timbocito-inserted', 'cotizacion-block'));
-
-    let dolarTarjetaItem = document.querySelector('.dolar_tarjeta');
-    dolarTarjetaItem && dolarTarjetaItem.addEventListener('click', () => {changePaymentMethodState('timbocito-cotizacion-tarjeta');window.location.reload()} )
 
     // Usar handler compartido para el botón de actualización
     attachUpdateRateHandler(sidebar.querySelector('.timbocito-update-rate-btn'));

@@ -1,11 +1,7 @@
-// Inicialización y observación incremental de los precios en Steam Home.
+// Inicialización de los precios en la portada, categorías y eventos de Steam.
 (async () => {
     await getUsdExchangeRate();
     getPrices("standard");
     getPrices("search");
     observePriceMutations(["standard", "search"]);
 })();
-
-function getOwnedArgentinaGames(){
-    return; // Deshabilitado para Paraguay
-}

@@ -211,6 +211,16 @@ Al agregar juegos al carrito, se mostrará el **total en Guaraníes con impuesto
 
 ---
 
+## Pruebas antes de empaquetar
+
+Ejecutá este comando desde la raíz del repositorio con Node.js y Chrome, Chromium o Edge instalados.
+
+```sh
+node --test tests/chromium.test.cjs
+```
+
+Si el navegador está instalado en otra ubicación, indicá el ejecutable con la variable `CHROMIUM_PATH`. Las pruebas usan un perfil temporal y ejemplos locales de la portada, la ficha de producto y el carrito. Cubren la estructura del carrusel, el cambio de saldo y la vigencia de la cotización.
+
 ## 🚧 Estado del Proyecto
 
 Timbocito Paraguay sigue en desarrollo, cualquier error o bug favor reportarlo :).

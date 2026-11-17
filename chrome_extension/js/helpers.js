@@ -396,6 +396,16 @@ function setNationalTax() {
 let taxes = setNationalTax();
 provinceTaxes = setProvinceTax();
 
+const discountsAndEventsModule = '#module_discounts_and_events';
+const discountsAndEventsPrice = `${discountsAndEventsModule} a[href] div[role="link"][aria-label] div:not(:has(> :not(.emojis)))`;
+const saleWidgetPriceSelectors = [
+    '.StoreSalePriceWidgetContainer.Discounted > div > div',
+    '.StoreSalePriceWidgetContainer:not(.Discounted) > div',
+    discountsAndEventsPrice
+];
+const saleWidgetPriceContainers = saleWidgetPriceSelectors.join(', ');
+const usdPricePattern = /^(?:USD?\s*)?\$\s*\d+(?:[.,]\d+)*(?:\s+USD)?$/i;
+
 const priceContainers = `
         .discount_original_price:not([${attributeName}]), 
         .discount_final_price:not([${attributeName}]), 
@@ -417,8 +427,7 @@ const priceContainers = `
         .item_def_price:not([${attributeName}]),
         .match_subtitle:not([${attributeName}]),
         .regional-meter-price:not([${attributeName}]),
-        .StoreSalePriceWidgetContainer.Discounted >div >div:not([${attributeName}]),
-        .StoreSalePriceWidgetContainer:not(.Discounted) >div:not([${attributeName}]),
+        ${saleWidgetPriceSelectors.map(selector => `${selector}:not([${attributeName}])`).join(', ')},
         .AppCapsuleCtn >span >span:not([${attributeName}])
         `;
 
@@ -468,38 +477,32 @@ function calcularImpuestos(initialPrice) {
     return finalPrice.toFixed(2);
 }
 
-function getBalance() {
-    let walletBalanceContainer = document.querySelector("#header_wallet_balance");
+function getWalletBalanceElement() {
+    return document.querySelector('#header_wallet_balance') || document.evaluate(
+        "//a[(starts-with(text(), 'Cartera') or starts-with(text(), 'Wallet')) and contains(@href, 'store.steampowered.com/account')]/b",
+        document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null
+    ).singleNodeValue;
+}
 
-    // fallback por xpath para cuando no se encuentra el contenedor de saldo (por ejemplo, en la wishlist)
-    if (!walletBalanceContainer) {
-        const xpath =
-            "//a[(starts-with(text(), 'Cartera') or starts-with(text(), 'Wallet')) and contains(@href, 'store.steampowered.com/account')]/b";
-        const result = document.evaluate(
-            xpath,
-            document,
-            null,
-            XPathResult.FIRST_ORDERED_NODE_TYPE,
-            null
-        );
-        walletBalanceContainer = result.singleNodeValue;
-    }
-    
-    if (localStorage.getItem('manual-mode') == "wallet") {
+function getBalance(useDisplayPreference = true) {
+    const displayMode = useDisplayPreference && localStorage.getItem('manual-mode');
+    if (displayMode === 'wallet') {
         return 9999999;
-    } else if (localStorage.getItem('manual-mode') == "mate") {
+    } else if (displayMode === 'mate') {
         return 0;
     }
-    else if (walletBalanceContainer) {
-        walletBalanceContainer.innerHTML += emojiWallet;
+    const walletBalanceContainer = getWalletBalanceElement();
+    if (walletBalanceContainer) {
+        if (!walletBalanceContainer.querySelector('.emojis')) {
+            walletBalanceContainer.insertAdjacentHTML('beforeend', emojiWallet);
+        }
         // Fix para resolver problema de detección de saldo cuando tenés un reembolso pendiente
         let walletBalance = document.createElement('p');
         walletBalance.innerText = walletBalanceContainer.innerText;
         if(walletBalance.innerText.includes('Pend')){
             walletBalance.innerText = walletBalance.innerText.slice(0, walletBalance.innerText.indexOf('Pend'))
         }
-        // return 6.12;
-        return stringToNumber(walletBalance);
+        return Number(stringToNumber(walletBalance)) || 0;
     }
     return 0;
 }
@@ -587,10 +590,6 @@ function numberToStringUsd(number) {
 
 function numberToStringSub(number) {
     return `${number}`.replace('.', ',');
-}
-
-function isInsideString(element, string) {
-    return element.innerText.indexOf(string) != -1 ? true : false;
 }
 
 function guaranizar(contenedor, emoji = true) {

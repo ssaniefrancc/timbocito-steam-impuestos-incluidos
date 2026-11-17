@@ -27,6 +27,10 @@ function createMenus(){
                     <div class="grupo-opciones">
                         <h3> Opciones de Cotización e Impuestos </h3>
 
+                        <p class="opcion"><strong data-timbocito-rate-value></strong><br>
+                            <small data-timbocito-rate-status></small>
+                        </p>
+
                         <div class="opcion" id="metodo-de-pago">
                             <div>
                                 <label for="metodo-de-pago-opciones">Tu método de pago</label>
@@ -101,7 +105,7 @@ function createMenus(){
 }
 
 function getReviewLink(){
-    return `<a href="https://chrome.google.com/webstore/detail/timbocito-steam-con-impue/fcjljapncagfmfhdkccgnbkgdpbcefcj" target="_blank">Valorá Steamcito(original) en Chrome Store ⭐</a> `;
+    return `<a href="https://chromewebstore.google.com/detail/timbocito-paraguay-precio/pfnmomihnmacngfhglmeokofjkoiepoh?hl=es" target="_blank" rel="noopener noreferrer">Califica Timbocito</a>`;
 }
 
 function setInitialLocalStates(){
@@ -147,6 +151,7 @@ function changeProvinceTax(){
 }
 
 function showMenu(e){
+    renderExchangeRateStatus(menu);
     menu.classList.add('enabled');
     menuBackground.classList.add('menu-timbocito-background-enabled');
     document.body.classList.add('menu-enabled');

@@ -5,20 +5,6 @@
   src: url(https://fonts.gstatic.com/l/font?kit=Yq6P-KqIXTD0t4D9z1ESnKM3-HpFabt0-yAtYT8dG2Qyr9iC5Ue3K5AOyg&skey=a373f7129eaba270&v=v32) format('woff2');
 }
 
-@font-face {
-  font-family: "timbocito-emojis";
-  src: url("chrome-extension://__MSG_@@extension_id__/emojis/timbocito-emojis.eot");
-  src: url("chrome-extension://__MSG_@@extension_id__/emojis/timbocito-emojis.eot?#iefix")
-      format("embedded-opentype"),
-    url("chrome-extension://__MSG_@@extension_id__/emojis/timbocito-emojis.woff")
-      format("woff"),
-    url("chrome-extension://__MSG_@@extension_id__/emojis/timbocito-emojis.ttf")
-      format("truetype");
-  font-weight: normal;
-  font-style: normal;
-}
-
-
 .emojis {
   font-family: "timbocito-emojis-noto",sans-serif;
   text-transform: uppercase;
